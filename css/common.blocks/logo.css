@@ -1,0 +1,33 @@
+.logo{
+  position: relative;
+  z-index: 102;
+  display: block;
+  text-decoration: none;
+}
+
+.logo__icon{
+  width: 100px;
+  height: 30px;
+  overflow: visible;
+}
+
+.logo__letter {
+  fill: rgb(133, 237, 237);
+  stroke: #000;
+  stroke-width: 2px;
+  animation: logo 3s ease infinite alternate 0s forwards;
+}
+
+@keyframes logo {
+  from {
+    fill-opacity: 0;
+    stroke-dasharray: 50%;
+    stroke-dashoffset: 10%;
+  }
+  to {
+    stroke-dasharray: 10%;
+    stroke-dashoffset: 40%;
+    fill-opacity: 1;
+    
+  }
+}

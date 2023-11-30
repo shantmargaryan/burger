@@ -1,0 +1,8 @@
+@import url(./reset.css);
+@import url(./fonts.css);
+@import url(./mix-class.css);
+@import url(./common.blocks/header.css);
+@import url(./common.blocks/logo.css);
+@import url(./common.blocks/nav.css);
+@import url(./common.blocks/burger.css);
+@import url(./common.blocks/main.css);

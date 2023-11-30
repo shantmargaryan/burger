@@ -1,0 +1,33 @@
+.header {
+    width: 100%;
+    top: 0;
+    left: 0;
+    position: relative;
+    padding: 20px 0;
+    background-color: #3ee207;
+}
+
+.header_active::before{
+    content: "";
+    position: absolute;
+    z-index: 102;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 100vw;
+    background-color: #3ee207;
+}
+
+.header__container{ 
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header_active{ 
+    /* position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    background-color: #3ee207; */
+}
