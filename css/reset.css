@@ -17,6 +17,7 @@ html {
 .page__body {
     margin: 0;
     font-family: Montserrat;
+		position: relative;
 }
 
 .page__body.dis-scroll {

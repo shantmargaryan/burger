@@ -1,0 +1,38 @@
+"burger x": {
+		"scope": "scss",
+		"prefix": "burger-x",
+		"body": [
+			"@include burger-X(width,height,height-line,color-line,visible-when);"
+		],
+		"description": "burger X"
+	},
+
+  "burger custom": {
+		"scope": "scss",
+		"prefix": "burger-custom",
+		"body": [
+			"@include burger-custom (width,height,height-line,color-line,visible-when) {",
+			"/*property: burger__line*/",
+			".burger__line {",
+			"&_top {",
+			"}",
+			"&_middle {",
+			"}",
+			"&_bottom {",
+			"}",
+			"}",
+			"/*property: burger_active*/",
+			"&_active {",
+			".burger__line {",
+			"&_top {",
+			"}",
+			"&_middle {",
+			"}",
+			"&_bottom {",
+			"}",
+			"}",
+			"}",
+			"}"
+		],
+		"description": "burger custom"
+	},
