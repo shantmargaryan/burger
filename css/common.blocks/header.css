@@ -3,19 +3,20 @@
     position: relative;
     padding: 20px 0;
     background-color: #3ee207;
+    transition: transform 0.3s ease 0s;
 }
 
-.header[data-fixed-block] {
+.header_fixed {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
+    /* animation: header-fixed-anim 0.5s ease 0s 1 alternate forwards; */
 }
 
-.header_fixed-anim {
+.header_anim {
     animation: header-fixed-anim 0.5s ease 0s 1 alternate forwards;
 }
-
 @keyframes header-fixed-anim {
     0% {
         transform: translateY(-100%);

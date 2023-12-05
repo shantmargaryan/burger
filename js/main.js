@@ -1,3 +1,4 @@
+
 // անջատել scroll
 const disableScroll = () => {
     const fixBlocks = document?.querySelectorAll('[data-fixed-block]');
@@ -8,6 +9,7 @@ const disableScroll = () => {
     document.body.style.paddingRight = paddingOffset;
     document.body.classList.add('dis-scroll');
     document.body.dataset.position = pagePosition;
+    // document.querySelector('.header').style.top = `${pagePosition}px`;
     document.body.style.top = `-${pagePosition}px`;
 }
 
@@ -18,6 +20,7 @@ const enableScroll = () => {
     fixBlocks.forEach(el => { el.style.paddingRight = '0px'; });
     document.body.style.paddingRight = '0px';
     document.body.style.top = 'auto';
+    // document.querySelector('.header').style.top = 0;
     document.body.classList.remove('dis-scroll');
     window.scroll({
         top: pagePosition,
@@ -31,47 +34,91 @@ class Burger {
     constructor(burgerElem, options) {
         let defaultOptions = {
             marker: this.marker,
-            scrollShow: this.scrollShow
+            fixed: {
+                default: this.default,
+                scrolling: this.scrolling,
+            },
+            media: {
+                width: 'min',
+                breakpoint: 768,
+            }
         }
-        this.options = Object.assign(defaultOptions, options)
+        this.options = Object.assign(defaultOptions, options);
         this.header = document.querySelector(`[data-burger="${burgerElem}"]`);
         this.nav = this.header?.querySelector('.nav');
         this.navItems = this.nav?.querySelectorAll('.nav__item');
         this.burger = this.header?.querySelector('.burger');
-
+        this.mediaQuery = window.matchMedia(`(${this.options.media.width}-width: ${this.options.media.breakpoint}px)`);
+        
         this.elemsClassNameActive = {
             nav: 'nav_open',
             burger: 'burger_active',
         }
 
-        if (this.options.scrollShow) {
-            window.onscroll = () => {
-                if (window.scrollY > this.options.scrollShow) {
-                    this.header.setAttribute('data-fixed-block', '')
-                    this.header.classList.add('header_fixed-anim')
-                    document.body.style.paddingTop = this.header.offsetHeight + "px";
-                } else {
-                    this.header.removeAttribute('data-fixed-block', '')
-                    this.header.classList.remove('header_fixed-anim');
-                    document.body.style.paddingTop = '';
-                }
-
-                
-            }
-        }
-
-        if (this.header.hasAttribute('data-fixed-block')) {
-            document.body.style.paddingTop = this.header.offsetHeight + "px";
-        }
-
-        window.matchMedia('(min-width: 768px)').addEventListener("change", (e) => {
-            if (e.matches) this.navHide()
-        });
-
         this.headerClickHandle = this.headerClickHandle.bind(this);
         this.documentEventKey = this.documentEventKey.bind(this);
+        this.handleMediaChange = this.handleMediaChange.bind(this);
 
-        this.header.addEventListener('click', this.headerClickHandle)
+        this.mediaQuery.addEventListener('change', this.handleMediaChange);
+        this.header.addEventListener('click', this.headerClickHandle);
+        this.getFixed();
+        this.initMedia();
+    }
+
+    getFixed() {
+        if (this.options.fixed.default) {
+            this.enableFixed()
+        }
+        if (this.options.fixed.scrolling) {
+            if (window.scrollY > this.options.fixed.scrolling) {
+                this.enableFixed()
+            }
+            else {
+                this.disableFixed()
+            }
+            window.onscroll = () => {
+                if (window.scrollY > this.options.fixed.scrolling) {
+                    this.enableFixed()
+                } else {
+                    this.disableFixed()
+                }
+            }
+        }
+    }
+    enableFixed() {
+        this.header.classList.add('header_fixed');
+        this.header.setAttribute('data-fixed-block', '');
+        document.body.style.paddingTop = this.header.offsetHeight + "px";
+    }
+    disableFixed() {
+        this.header.classList.remove('header_fixed');
+        this.header.removeAttribute('data-fixed-block');
+        document.body.style.paddingTop = '';
+    }
+
+    mobileVersion() {
+        if (this.burger.classList.contains(this.elemsClassNameActive.burger) &&
+            this.nav.classList.contains(this.elemsClassNameActive.nav)) {
+            disableScroll()
+        }
+    }
+
+    desctopVersion() {
+        enableScroll();
+    }
+    initMedia() {
+        if (this.mediaQuery.matches) {
+            this.desctopVersion()
+        } else {
+            this.mobileVersion()
+        }
+    }
+    handleMediaChange(event) {
+            if (event.matches) {
+                this.desctopVersion()
+            } else {
+                this.mobileVersion()
+            }
     }
 
     documentEventKey(e) {
@@ -82,26 +129,22 @@ class Burger {
     }
 
     navToggle(open) {
-        // header?.classList.toggle('header_active', open)
         this.burger?.classList.toggle(this.elemsClassNameActive.burger, open);
         this.nav?.classList.toggle(this.elemsClassNameActive.nav, open);
         this.burger?.setAttribute('aria-expanded', open.toString());
         this.burger?.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
         this.nav.style.top = open ? this.nav.closest('.header').offsetHeight + "px" : '';
-
         if (open) {
-            disableScroll();
+            this.nav.setAttribute('data-fixed-block', '');
+            disableScroll()
             document.body.addEventListener("keydown", this.documentEventKey);
         } else {
-            enableScroll();
-            document.body.removeEventListener("keydown", this.documentEventKey)
+            enableScroll()
+            document.body.removeEventListener("keydown", this.documentEventKey);
         }
     }
-
     navShow() { this.navToggle(true) }
-
     navHide() { this.navToggle(false) }
-
     headerClickHandle(e) {
         const currentNavItem = e.target.closest('.nav__item')
         if (e.target.closest('.burger')) {
@@ -124,5 +167,7 @@ class Burger {
 
 new Burger('header', {
     marker: true,
-    scrollShow: 500
+    fixed: {
+        scrolling: 400
+    }
 })

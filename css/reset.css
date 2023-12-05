@@ -1,23 +1,23 @@
 *,
 *:before,
 *:after {
-    box-sizing: inherit
+	box-sizing: inherit
 }
 
 html {
-    box-sizing: border-box
+	box-sizing: border-box
 }
 
 .page,
 .page__body {
-    width: 100%;
-    height: 100%;
+	width: 100%;
+	height: 100%;
 }
 
 .page__body {
-    margin: 0;
-    font-family: Montserrat;
-		position: relative;
+	margin: 0;
+	font-family: Montserrat;
+	position: relative;
 }
 
 .page__body.dis-scroll {
