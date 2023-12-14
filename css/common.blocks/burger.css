@@ -23,7 +23,7 @@
   transform: translateY(18px) rotate(45deg);
 }
 .burger_active .burger__line_middle{
-  transform: scale(0);
+  transform: scaleX(0);
 }
 .burger_active .burger__line_bottom{
   transform: translateY(-18px) rotate(-45deg);
