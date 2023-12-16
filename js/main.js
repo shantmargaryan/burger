@@ -53,7 +53,9 @@ class Burger {
                 bottom: this.bottom,
                 left: this.left,
                 right: this.right
-            }
+            },
+            transition: 900,
+            overlay: false
         }
         this.options = Object.assign(defaultOptions, options);
         this.header = document.querySelector(`[data-burger-header="${burgerElem}"]`);
@@ -61,7 +63,7 @@ class Burger {
         this.navItems = this.nav?.querySelectorAll('[data-burger-nav-item]');
         this.burger = this.header?.querySelector('[data-burger-btn]');
         this.mediaQuery = window.matchMedia(`(${this.options.media.width}-width: ${this.options.media.breakpoint}px)`);
-        
+
         this.elemsClassNameActive = {
             nav: 'nav_open',
             burger: 'burger_active',
@@ -72,41 +74,75 @@ class Burger {
 
         this.mediaQuery.addEventListener('change', this.handleMediaChange);
         this.header.addEventListener('click', this.headerClickHandle);
-        this.setOffsetSize()
         this.setWhichSide(true)
         this.getFixed();
         this.initMedia();
     }
 
-    setOffsetSize () {
-        this.nav.style.setProperty('--burger-nav-max-height', this.options.offsetSize.maxHeight);
-        this.nav.style.setProperty('--burger-nav-max-width', this.options.offsetSize.maxWidth);
+    navToggle(open) {
+        this.header.classList.toggle('header_active', open)
+        this.burger?.classList.toggle(this.elemsClassNameActive.burger, open);
+        this.nav?.classList.toggle(this.elemsClassNameActive.nav, open);
+        this.burger?.setAttribute('aria-expanded', open.toString());
+        this.burger?.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+        this.nav.style.paddingTop = this.nav.closest('.header').offsetHeight + "px";
+    }
+
+    navShow() {
+        this.navToggle(true);
+        if (this.nav.style.getPropertyValue('max-width').includes('%')) {
+            this.nav.setAttribute('data-fixed-block', '');
+        }
+        disableScroll()
+        document.body.addEventListener("click", this.documentEventClick);
+        document.body.addEventListener("keydown", this.documentEventKey);
+        this.setWhichSide(false)
+        this.getOffsetSize(true)
+    }
+
+    navHide() {
+        this.navToggle(false);
+        enableScroll()
+        document.body.removeEventListener("click", this.documentEventClick);
+        document.body.removeEventListener("keydown", this.documentEventKey);
+        this.setWhichSide(true)
+    }
+
+    getOffsetSize(open) {
+        if (open) {
+            this.nav.style.setProperty('max-height', this.options.offsetSize.maxHeight);
+            this.nav.style.setProperty('max-width', this.options.offsetSize.maxWidth);
+        } else {
+            this.nav.style.removeProperty('max-height');
+            this.nav.style.removeProperty('max-width');
+        }
+
     }
 
     setWhichSide(open) {
         if (this.options.whichSide.top) {
-            this.nav.style.setProperty('--burger-nav-top',open ? '-100%' : '0');
-            this.nav.style.setProperty('--burger-nav-bottom',open ? '100%' : '0');
-            this.nav.style.setProperty('--burger-nav-left', '0');
-            this.nav.style.setProperty('--burger-nav-right', '0');
+            this.nav.style.setProperty('top', open ? '-100%' : '0');
+            this.nav.style.setProperty('bottom', open ? '100%' : '0');
+            this.nav.style.setProperty('left', '0');
+            this.nav.style.setProperty('right', '0');
         }
         if (this.options.whichSide.bottom) {
-            this.nav.style.setProperty('--burger-nav-bottom',open ? '-100%' : '0');
-            this.nav.style.setProperty('--burger-nav-top',open ? '100%' : '0');
-            this.nav.style.setProperty('--burger-nav-right', '0');
-            this.nav.style.setProperty('--burger-nav-left', '0');
+            this.nav.style.setProperty('bottom', open ? '-100%' : '0');
+            this.nav.style.setProperty('top', open ? '100%' : '0');
+            this.nav.style.setProperty('right', '0');
+            this.nav.style.setProperty('left', '0');
         }
         if (this.options.whichSide.left) {
-            this.nav.style.setProperty('--burger-nav-left',open ? '-100%' : '0');
-            this.nav.style.setProperty('--burger-nav-right',open ? '100%' : '0');
-            this.nav.style.setProperty('--burger-nav-top', '0');
-            this.nav.style.setProperty('--burger-nav-bottom', '0');
+            this.nav.style.setProperty('left', open ? '-100%' : '0');
+            this.nav.style.setProperty('right', open ? '100%' : '0');
+            this.nav.style.setProperty('top', '0');
+            this.nav.style.setProperty('bottom', '0');
         }
         if (this.options.whichSide.right) {
-            this.nav.style.setProperty('--burger-nav-right',open ? '-100%' : '0');
-            this.nav.style.setProperty('--burger-nav-left',open ? '100%' : '0');
-            this.nav.style.setProperty('--burger-nav-bottom', '0');
-            this.nav.style.setProperty('--burger-nav-top', '0');
+            this.nav.style.setProperty('right', open ? '-100%' : '0');
+            this.nav.style.setProperty('left', open ? '100%' : '0');
+            this.nav.style.setProperty('bottom', '0');
+            this.nav.style.setProperty('top', '0');
         }
     }
 
@@ -137,16 +173,19 @@ class Burger {
         this.header.setAttribute('data-fixed-block', '');
         document.body.style.paddingTop = this.header.offsetHeight + "px";
     }
-    disableFixed() {this.header.style.setProperty('padding-right', '0')
+    disableFixed() {
+        this.header.style.setProperty('padding-right', '0')
         this.header.classList.remove('header_fixed');
         this.header.removeAttribute('data-fixed-block');
         document.body.style.paddingTop = '';
     }
 
     mobileVersion() {
+        this.getOffsetSize(true);
+        this.getOverlay(true);
         if (this.burger.classList.contains(this.elemsClassNameActive.burger) &&
             this.nav.classList.contains(this.elemsClassNameActive.nav)) {
-            disableScroll()
+            disableScroll();
             this.nav.style.paddingTop = this.nav.closest('.header').offsetHeight + "px";
         }
     }
@@ -154,6 +193,8 @@ class Burger {
     desctopVersion() {
         this.nav.style.paddingTop = '';
         enableScroll();
+        this.getOffsetSize(false);
+        this.getOverlay(false);
     }
     initMedia() {
         if (this.mediaQuery.matches) {
@@ -171,35 +212,26 @@ class Burger {
     }
 
     documentEventKey(e) {
-        if (e.key == "Escape") {
+        if (e.key === "Escape") {
             this.navHide();
             console.log('key');
         }
     }
 
-    navToggle(open) {
-        this.burger?.classList.toggle(this.elemsClassNameActive.burger, open);
-        this.nav?.classList.toggle(this.elemsClassNameActive.nav, open);
-        this.burger?.setAttribute('aria-expanded', open.toString());
-        this.burger?.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
-        this.nav.style.paddingTop = this.nav.closest('.header').offsetHeight + "px";
-        
-        if (open) {
-            if (this.nav.style.getPropertyValue('--burger-nav-max-width').includes('%')) {
-                this.nav.setAttribute('data-fixed-block', '');
+    getOverlay(open) {
+        if (this.options.overlay) {
+            const overlay = document.createElement('div');
+            overlay.classList.add('header__overlay');
+            this.headerContainer = this.header?.querySelector('.header__container');
+            if (!open) {
+                this.header?.querySelector('.header__overlay')?.remove();
             }
-            
-            disableScroll()
-            document.body.addEventListener("keydown", this.documentEventKey);
-            this.setWhichSide(false)
-        } else {
-            enableScroll()
-            document.body.removeEventListener("keydown", this.documentEventKey);
-            this.setWhichSide(true)
+            if (open) {
+                this.headerContainer?.append(overlay);
+            }
         }
     }
-    navShow() { this.navToggle(true) }
-    navHide() { this.navToggle(false) }
+
     headerClickHandle(e) {
         const currentNavItem = e.target.closest('.nav__item')
         if (e.target.closest('.burger')) {
@@ -217,10 +249,25 @@ class Burger {
             }
             this.navHide();
         }
+        if (e.target.closest('.header__overlay')) {
+            this.navHide();
+        }
     }
 }
 
-new Burger('header')
+new Burger('header', {
+    whichSide: {
+        left: true
+    },
+    offsetSize: {
+        maxWidth: '60%',
+        // maxHeight: '70%'
+    },
+    overlay: true,
+    fixed: {
+        scrolling: 400
+    }
+})
 
 
 

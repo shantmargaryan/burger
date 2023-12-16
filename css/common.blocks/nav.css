@@ -1,24 +1,14 @@
 .nav {
   position: fixed;
   z-index: 100;
-  left: var(--burger-nav-left);
-  top: var(--burger-nav-top);
-  bottom: var(--burger-nav-bottom);
-  right: var(--burger-nav-right);
   width: 100%;
   height: 100%;
-  max-width: var(--burger-nav-max-width);
-  max-height: var(--burger-nav-max-height);
   background-color: #b2b6b1;
   transition: top 0.9s ease 0s, bottom 0.9s ease 0s, left 0.9s ease 0s, right 0.9s ease 0s;
   overflow: auto;
 }
 
 .nav_open {
-  top: var(--burger-nav-top);
-  bottom: var(--burger-nav-bottom);
-  left: var(--burger-nav-left);
-  right: var(--burger-nav-right);
 }
 
 .nav__list {
@@ -53,7 +43,6 @@
 @media(min-width:768px) {
   .nav {
     position: static;
-    z-index: 0;
     width: auto;
     height: auto;
     max-width: 100%;
