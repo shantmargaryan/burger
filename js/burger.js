@@ -81,7 +81,6 @@ class Burger {
         this.nav?.classList.toggle(this.elemsClassNameActive.nav, open);
         this.burger?.setAttribute('aria-expanded', open.toString());
         this.burger?.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
-        this.nav.style.paddingTop = this.nav.closest('.header').offsetHeight + "px";
     }
 
     navShow() {
@@ -91,16 +90,15 @@ class Burger {
         }
         disableScroll()
         document.body.addEventListener("keydown", this.documentEventKey);
-        this.setWhichSide(false)
-        this.getOffsetSize(true)
+        this.setWhichSide(false);
+        this.getOffsetSize(true);
     }
 
     navHide() {
         this.navToggle(false);
-        enableScroll()
-        document.body.removeEventListener("click", this.documentEventClick);
+        enableScroll();
         document.body.removeEventListener("keydown", this.documentEventKey);
-        this.setWhichSide(true)
+        this.setWhichSide(true);
     }
 
     getOffsetSize(open) {
@@ -147,6 +145,7 @@ class Burger {
         }
 
         if (this.options.fixed.scrolling) {
+
             if (window.scrollY > this.options.fixed.scrolling) {
                 this.enableFixed()
             }
@@ -174,7 +173,6 @@ class Burger {
         this.header.removeAttribute('data-fixed-block');
         document.body.style.paddingTop = '';
     }
-
     mobileVersion() {
         this.getOffsetSize(true);
         this.getOverlay(true);
@@ -184,10 +182,9 @@ class Burger {
         if (this.burger.classList.contains(this.elemsClassNameActive.burger) &&
             this.nav.classList.contains(this.elemsClassNameActive.nav)) {
             disableScroll();
-            this.nav.style.paddingTop = this.nav.closest('.header').offsetHeight + "px";
         }
+        this.nav.style.paddingTop = this.nav.closest('.header').offsetHeight + "px";
     }
-
     desctopVersion() {
         this.header.classList.add('header_desctop');
         this.nav.classList.add('nav_desctop');
@@ -211,14 +208,12 @@ class Burger {
             this.mobileVersion()
         }
     }
-
     documentEventKey(e) {
         if (e.key === "Escape") {
             this.navHide();
             console.log('key');
         }
     }
-
     getOverlay(open) {
         if (this.options.overlay) {
             const overlay = document.createElement('div');
@@ -232,7 +227,6 @@ class Burger {
             }
         }
     }
-
     headerClickHandle(e) {
         const currentNavItem = e.target.closest('.nav__item')
         if (e.target.closest('.burger')) {
@@ -245,7 +239,7 @@ class Burger {
         }
         if (currentNavItem) {
             if (this.options.marker === true) {
-                this.navItems.forEach(item => { item.classList.remove('nav__item_active') })
+                this.navItems.forEach(item => {item.classList.remove('nav__item_active') });
                 currentNavItem.classList.add('nav__item_active');
             }
             this.navHide();

@@ -156,8 +156,10 @@ body.dis-scroll {
 .nav_open {}
 
 .nav__list {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto;
+  justify-items: center;
   gap: 30px;
   margin: 0;
   padding: 0;
@@ -167,11 +169,17 @@ body.dis-scroll {
 }
 
 .nav_desctop .nav__list {
-  flex-direction: row;
+  grid-template-columns: auto;
+  grid-template-rows: 1fr;
 }
 
 .nav__item {
   box-sizing: inherit;
+  grid-row: auto;
+}
+
+.nav_desctop .nav__item {
+  grid-row: 1/2;
 }
 
 .nav__link {
