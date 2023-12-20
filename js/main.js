@@ -9,7 +9,8 @@ new Burger('header', {
     breakpoint: 768,
     overlay: true,
     fixed: {
-        scrolling: 400,
-        // default: true
-    }
+        // scrolling: 500,
+        default: true
+    },
+    speed: 500
 })
