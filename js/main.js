@@ -3,7 +3,7 @@ new Burger('header', {
         left: true
     },
     offsetSize: {
-        maxWidth: '600px',
+        maxWidth: '400px',
         // maxHeight: '70%'
     },
     breakpoint: 768,
