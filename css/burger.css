@@ -1,8 +1,78 @@
+*,
+*:before,
+*:after {
+	box-sizing: inherit
+}
+
+html {
+	box-sizing: border-box;
+	scroll-behavior: smooth;
+}
+
+html,
+body {
+	width: 100%;
+	height: 100%;
+}
+
+body {
+	margin: 0;
+	font-family: Arial, Helvetica, sans-serif;
+	position: relative;
+}
+
+body.dis-scroll {
+	position: fixed;
+	left: 0;
+	top: 0;
+	overflow: hidden;
+	width: 100%;
+	height: 100vh;
+	overscroll-behavior: none;
+}
+
+.logo{
+  position: relative;
+  z-index: 102;
+  box-sizing: inherit;
+  display: block;
+  text-decoration: none;
+}
+
+.logo__icon{
+  box-sizing: inherit;
+  width: 100px;
+  height: 30px;
+  overflow: visible;
+}
+
+.logo__letter {
+  fill: #ff0e0e;
+  stroke: #000;
+  stroke-width: 2px;
+  animation: logo 3s ease infinite alternate 0s forwards;
+}
+
+@keyframes logo {
+  from {
+    fill-opacity: 0;
+    stroke-dasharray: 50%;
+    stroke-dashoffset: 10%;
+  }
+  to {
+    stroke-dasharray: 10%;
+    stroke-dashoffset: 40%;
+    fill-opacity: 1;
+    
+  }
+}
+
 .header {
   width: 100%;
   position: relative;
   background-color: #b2b6b1;
   box-shadow: 1px 1px 1px #000;
+  box-sizing: border-box;
 }
 
 .header_fixed {
@@ -10,18 +80,6 @@
   top: 0 !important;
   left: 0;
   right: 0;
-  /* animation: header-fixed-anim 0.5s ease 0s 1 alternate forwards; */
-}
-
-@keyframes header-fixed-anim {
-  0% {
-    transform: translateY(-100%);
-
-  }
-
-  100% {
-    transform: translateY(0);
-  }
 }
 
 .header__container {
@@ -30,6 +88,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 20px 15px;
+  box-sizing: inherit;
 }
 
 .header__container::before {
@@ -40,33 +99,56 @@
   left: 0;
   right: 0;
   bottom: 0;
-  width: 100vw;
+  box-sizing: inherit;
+  width: 100%;
   height: 100%;
   background-color: #b2b6b1;
 }
 
+.header_desctop .header__container::before {
+  display: none;
+}
+
+.header__overlay {
+  position: fixed;
+  left: 0;
+  top: 0;
+  box-sizing: inherit;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  background-color: #0000003d;
+  transition: opacity 0.3s ease 0s, visibility 0.3s ease 0s;
+}
+
+.header_active .header__overlay {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: all;
+}
 .nav {
   position: fixed;
   z-index: 100;
-  left: var(--burger-nav-left);
-  top: var(--burger-nav-top);
-  bottom: var(--burger-nav-bottom);
-  right: var(--burger-nav-right);
+  box-sizing: inherit;
   width: 100%;
   height: 100%;
-  max-width: var(--burger-nav-max-width);
-  max-height: var(--burger-nav-max-height);
   background-color: #b2b6b1;
   transition: top 0.9s ease 0s, bottom 0.9s ease 0s, left 0.9s ease 0s, right 0.9s ease 0s;
   overflow: auto;
 }
 
-.nav_open {
-  top: var(--burger-nav-top);
-  bottom: var(--burger-nav-bottom);
-  left: var(--burger-nav-left);
-  right: var(--burger-nav-right);
+.nav_desctop {
+  position: static;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  background-color: transparent;
 }
+
+.nav_open {}
 
 .nav__list {
   display: flex;
@@ -76,9 +158,19 @@
   padding: 0;
   list-style: none;
   align-items: center;
+  box-sizing: inherit;
+}
+
+.nav_desctop .nav__list {
+  flex-direction: row;
+}
+
+.nav__item {
+  box-sizing: inherit;
 }
 
 .nav__link {
+  box-sizing: inherit;
   text-decoration: none;
   text-transform: capitalize;
   color: #000;
@@ -89,7 +181,12 @@
 
 .nav__item_active .nav__link {
   color: #e21607;
-  font-size: calc(px + ( - ) * ((100vw - 320px) / ( - 320)));;
+}
+
+@media (pointer: fine) and (hover: hover) {
+  .nav__link:hover {
+    color: #e21607;
+  }
 }
 
 .burger {
@@ -98,6 +195,7 @@
   display: inline-flex;
   flex-direction: column;
   justify-content: space-between;
+  box-sizing: inherit;
   width: 40px;
   height: 40px;
   padding: 0;
@@ -106,7 +204,12 @@
   cursor: pointer;
 }
 
+.burger_desctop {
+  display: none;
+}
+
 .burger__line {
+  box-sizing: inherit;
   width: 100%;
   height: 4px;
   background-color: #000;
@@ -125,32 +228,6 @@
   transform: translateY(-18px) rotate(-45deg);
 }
 
-@media (pointer: fine) and (hover: hover) {
-  .nav__link:hover {
-    color: #e21607;
-  }
-}
-
-@media(min-width:768px) {
-  .header__container::before {
-    display: none;
-  }
-
-  .nav {
-    position: static;
-    z-index: 0;
-    width: auto;
-    height: auto;
-    max-width: 100%;
-    max-height: 100%;
-    background-color: transparent;
-  }
-
-  .nav__list {
-    flex-direction: row;
-  }
-
-  .burger {
-    display: none;
-  }
+.main {
+	min-height: 100%;
 }
