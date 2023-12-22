@@ -2,15 +2,18 @@ new Burger('header', {
     whichSide: {
         left: true
     },
+    position: {
+        right: true
+    },
     offsetSize: {
-        maxWidth: '400px',
-        // maxHeight: '70%'
+        maxWidth: '300px',
+        maxHeight: '100%'
     },
     breakpoint: 768,
     overlay: true,
     fixed: {
-        // scrolling: 500,
-        default: true
+        scrolling: 500,
+        // default: true
     },
-    speed: 500
+    speed: 1000
 })

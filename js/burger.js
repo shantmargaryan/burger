@@ -41,10 +41,16 @@ class Burger {
             },
             breakpoint: 768,
             offsetSize: {
-                maxHeight: '100%',
-                maxWidth: '100%',
+                maxHeight: '100vh',
+                maxWidth: '100vw',
             },
             whichSide: {
+                top: true,
+                bottom: this.bottom,
+                left: this.left,
+                right: this.right
+            },
+            position: {
                 top: true,
                 bottom: this.bottom,
                 left: this.left,
@@ -53,12 +59,15 @@ class Burger {
             speed: 900,
             overlay: false
         }
+
         this.options = Object.assign(defaultOptions, options);
         this.header = document.querySelector(`[data-burger-header="${burgerElem}"]`);
+        this.headerContainer = this.header.querySelector('.header__container');
         this.nav = this.header?.querySelector('[data-burger-nav]');
         this.navItems = this.nav?.querySelectorAll('[data-burger-nav-item]');
         this.burger = this.header?.querySelector('[data-burger-btn]');
         this.mediaQuery = window.matchMedia(`(min-width: ${this.options.breakpoint}px)`);
+
 
         this.elemsClassNameActive = {
             nav: 'nav_open',
@@ -69,14 +78,15 @@ class Burger {
         this.documentEventKey = this.documentEventKey.bind(this);
         this.handleMediaChange = this.handleMediaChange.bind(this);
         this.mediaQuery.addEventListener('change', this.handleMediaChange);
+
         this.header.addEventListener('click', this.headerClickHandle);
         this.setWhichSide(true)
+        this.setPosition(true)
         this.getFixed();
         this.initMedia();
     }
-
     navToggle(open) {
-        this.header.classList.toggle('header_active', open)
+        this.header.classList.toggle('header_active', open);
         this.burger?.classList.toggle(this.elemsClassNameActive.burger, open);
         this.nav?.classList.toggle(this.elemsClassNameActive.nav, open);
         this.burger?.setAttribute('aria-expanded', open.toString());
@@ -85,13 +95,11 @@ class Burger {
 
     navShow() {
         this.navToggle(true);
-        if (this.nav.style.getPropertyValue('max-width').includes('%')) {
-            this.nav.setAttribute('data-fixed-block', '');
-        }
         disableScroll()
         document.body.addEventListener("keydown", this.documentEventKey);
         this.setWhichSide(false);
         this.getOffsetSize(true);
+        this.setPosition(true);
     }
 
     navHide() {
@@ -99,6 +107,7 @@ class Burger {
         enableScroll();
         document.body.removeEventListener("keydown", this.documentEventKey);
         this.setWhichSide(true);
+        this.setPosition(true);
     }
 
     getOffsetSize(open) {
@@ -109,7 +118,6 @@ class Burger {
             this.nav.style.removeProperty('max-height');
             this.nav.style.removeProperty('max-width');
         }
-
     }
 
     setWhichSide(open) {
@@ -136,6 +144,20 @@ class Burger {
             this.nav.style.setProperty('left', open ? '100%' : '0');
             this.nav.style.setProperty('bottom', '0');
             this.nav.style.setProperty('top', '0');
+        }
+    }
+    setPosition(open) {
+        if (this.options.position.top) {
+            this.nav.style.setProperty('bottom', open ? 'auto' : 0);
+        }
+        if (this.options.position.bottom) {
+            this.nav.style.setProperty('top', open ? 'auto' : 0);
+        }
+        if (this.options.position.left) {
+            this.nav.style.setProperty('right', open ? 'auto' : 0);
+        }
+        if (this.options.position.right) {
+            this.nav.style.setProperty('left', open ? 'auto' : 0);
         }
     }
 
@@ -177,13 +199,14 @@ class Burger {
         this.getOffsetSize(true);
         this.getOverlay(true);
         this.header.classList.remove('header_desctop');
-        this.headerContainer.append(this.burger)
+        this.headerContainer.append(this.burger);
         this.nav.classList.remove('nav_desctop');
         if (this.burger.classList.contains(this.elemsClassNameActive.burger) &&
             this.nav.classList.contains(this.elemsClassNameActive.nav)) {
             disableScroll();
         }
         this.nav.style.paddingTop = this.nav.closest('.header').offsetHeight + "px";
+        this.nav.setAttribute('data-fixed-block', '')
     }
     desctopVersion() {
         this.header.classList.add('header_desctop');
@@ -194,18 +217,19 @@ class Burger {
         this.getOffsetSize(false);
         this.getOverlay(false);
     }
+
     initMedia() {
         if (this.mediaQuery.matches) {
-            this.desctopVersion()
+            this.desctopVersion();
         } else {
-            this.mobileVersion()
+            this.mobileVersion();
         }
     }
     handleMediaChange(event) {
         if (event.matches) {
-            this.desctopVersion()
+            this.desctopVersion();
         } else {
-            this.mobileVersion()
+            this.mobileVersion();
         }
     }
     documentEventKey(e) {
@@ -232,14 +256,14 @@ class Burger {
         if (e.target.closest('.burger')) {
             if (this.burger.classList.contains(this.elemsClassNameActive.burger) &&
                 this.nav.classList.contains(this.elemsClassNameActive.nav)) {
-                this.navHide();
+                        this.navHide();
             } else {
                 this.navShow();
             }
         }
         if (currentNavItem) {
             if (this.options.marker === true) {
-                this.navItems.forEach(item => {item.classList.remove('nav__item_active') });
+                this.navItems.forEach(item => { item.classList.remove('nav__item_active') });
                 currentNavItem.classList.add('nav__item_active');
             }
             this.navHide();
