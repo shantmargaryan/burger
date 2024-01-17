@@ -36,11 +36,8 @@ class Burger {
         let defaultOptions = {
             marker: this.marker,
             dropdown: {
-                job: this.job,
-                events: {
-                    click: this.click,
-                    hover: true
-                }
+                click: this.click,
+                hover: this.hover
             },
             fixed: {
                 defaultValue: this.defaultValue,
@@ -84,8 +81,8 @@ class Burger {
         this.documentEventKey = this.documentEventKey.bind(this);
         this.handleMediaChange = this.handleMediaChange.bind(this);
         this.mediaQuery.addEventListener('change', this.handleMediaChange);
-
         this.header.addEventListener('click', this.headerClickHandle);
+        
         this.setWhichSide(true)
         this.getFixed();
         this.initMedia();
@@ -227,9 +224,17 @@ class Burger {
             open && this.headerContainer?.append(overlay);
         }
     }
+
+    dropdownClickHandle(e) {
+
+    }
+    dropdownHoverHandle(e) {
+
+    }
     headerClickHandle(e) {
         const currentNavItem = e.target.closest('.nav__item');
-        const subItem = currentNavItem.querySelector('․nav__sub-list');
+        // const subItem = currentNavItem.querySelector('․nav__sub-list');
+
         if (e.target.closest('.burger')) {
             if (this.burger.classList.contains(this.elemsClassNameActive.burger) &&
                 this.nav.classList.contains(this.elemsClassNameActive.nav)) {
@@ -238,17 +243,21 @@ class Burger {
                 this.navShow();
             }
         }
+
         if (currentNavItem) {
             if (this.options.marker) {
                 this.navItems.forEach(item => item.classList.remove('nav__item_active'));
                 currentNavItem.classList.add('nav__item_active');
             }
-            if (this.options.dropdown.job) {
+
+            if (this.options.dropdown.click) {
+                const hasDropdownActive = currentNavItem.classList.contains('dropdown_active');
                 this.navItems.forEach(item => item.classList.remove('dropdown_active'));
-                currentNavItem.classList.toggle('dropdown_active');
+                currentNavItem.classList.toggle('dropdown_active', !hasDropdownActive);
             }
             !this.options.dropdown && this.navHide();
         }
+        // click to overlay
         e.target.closest('.header__overlay') && this.navHide();
     }
 }

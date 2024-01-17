@@ -150,8 +150,7 @@ body.dis-scroll {
   overflow: auto;
 }
 
-.nav_open {
-}
+.nav_open {}
 
 .nav_desctop {
   position: static;
@@ -207,29 +206,50 @@ body.dis-scroll {
 }
 
 /* dropdown */
+.nav__sub-list .nav__sub-item {
+  position: relative;
+}
+
 .nav__sub-list {
   position: absolute;
   left: 0;
   top: 100%;
   z-index: 10;
-  visibility: hidden;
-  opacity: 0;
-  pointer-events: none;
+  min-width: 200px;
   padding: 10px;
   list-style: none;
   color: #fff;
   background-color: var(--header-color);
+  transform-origin: 0 0;
+  transform: rotateX(-90deg);
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.3s ease 0s, visibility 0.3s ease 0s;
 }
 
-.dropdown_active .nav__sub-list{
-    visibility: visible;
-    opacity: 1;
-    pointer-events: all;
+.nav__sub-list .nav__sub-list {
+  position: absolute;
+  top: 0;
+  left: 100%;
+  transition: transform 0.3s ease 0s, visibility 0.3s ease 0s;
+}
+
+.nav__list li:hover > .nav__sub-list {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: all;
+  transform: rotateX(0deg);
+}
+
+.dropdown_active .nav__sub-list {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: all;
 }
 
 .nav__sub-item {
   cursor: pointer;
-
   &:not(:last-child) {
     margin-bottom: 10px;
   }
@@ -243,7 +263,7 @@ body.dis-scroll {
   transition: transform .3s ease 0s;
 }
 
-.dropdown__button_active:after{
+.dropdown__button_active:after {
   transform: rotate(180deg);
 }
 
@@ -252,6 +272,7 @@ body.dis-scroll {
     color: #e21607;
   }
 }
+
 /* /dropdown */
 
 .burger {
