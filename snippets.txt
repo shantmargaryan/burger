@@ -1,3 +1,5 @@
+snippet to scss
+
 "burger x": {
 		"scope": "scss",
 		"prefix": "burger-x",
@@ -36,3 +38,81 @@
 		],
 		"description": "burger custom"
 	},
+
+
+
+ snippet to html
+
+	  "burger menu": {
+    "scope": "html",
+    "prefix": "burger",
+    "body": [
+      "<header class=\"header\" data-burger-header=\"header\">"
+      "<div class=\"header__container\">"
+          "<a class=\"logo\" href=\"#\">"
+              "logo"
+          "</a>"
+          "<nav class=\"nav\" data-burger-nav title=\"navigation menu\">"
+              "<ul class=\"nav__list\">"
+                  "<li class=\"nav__item dropdown\" data-burger-nav-item>"
+                      "<a href=\"#\" class=\"nav__link\">home</a><span class=\"dropdown-button\"></span>"
+                      "<ul class=\"nav__sub-list dropdown-list\">"
+                          "<li class=\"nav__sub-item\">subitem</li>"
+                          "<li class=\"nav__sub-item dropdown\">"
+                              "<a href=\"#\" class=\"nav__link\">contact</a><span class=\"dropdown-button\"></span>"
+                              "<ul class=\"nav__sub-list dropdown-list\">"
+                                  "<li class=\"nav__sub-item\">subitem</li>"
+                                  "<li class=\"nav__sub-item dropdown\">"
+                                      "<a href=\"#\" class=\"nav__link\">contact</a><span class=\"dropdown-button\"></span>"
+                                      "<ul class=\"nav__sub-list dropdown-list\">"
+                                          "<li class=\"nav__sub-item\">subitem</li>"
+                                          "<li class=\"nav__sub-item\">"
+                                              "<a href=\"#\" class=\"nav__link\">contact</a>"
+                                          "</li>"
+                                          "<li class=\"nav__sub-item\">subitem</li>"
+                                          "<li class=\"nav__sub-item\">subitem</li>"
+                                      "</ul>"
+                                  "</li>"
+                                  "<li class=\"nav__sub-item\">subitem</li>"
+                                  "<li class=\"nav__sub-item\">subitem</li>"
+                              "</ul>"
+                          "</li>"
+                          "<li class=\"nav__sub-item\">subitem</li>"
+                          "<li class=\"nav__sub-item dropdown\">"
+                              "<a href=\"#\" class=\"nav__link\">contact</a><span class=\"dropdown-button\"></span>"
+                              "<ul class=\"nav__sub-list dropdown-list\">"
+                                  "<li class=\"nav__sub-item\">subitem</li>"
+                                  "<li class=\"nav__sub-item\">"
+                                      "<a href=\"#\" class=\"nav__link\">contact</a>"
+                                  "</li>"
+                                  "<li class=\"nav__sub-item\">subitem</li>"
+                                  "<li class=\"nav__sub-item\">subitem</li>"
+                              "</ul>"
+                          "</li>"
+                      "</ul>"
+                  "</li>"
+                  "<li class=\"nav__item\" data-burger-nav-item><a href=\"#\" class=\"nav__link\">about</a></li>"
+                  "<li class=\"nav__item dropdown\" data-burger-nav-item>"
+                      "<a href=\"#\" class=\"nav__link\">contact</a><span class=\"dropdown-button\"></span>"
+                      "<ul class=\"nav__sub-list dropdown-list\">"
+                          "<li class=\"nav__sub-item\">subitem</li>"
+                          "<li class=\"nav__sub-item\">subitem</li>"
+                          "<li class=\"nav__sub-item\">subitem</li>"
+                          "<li class=\"nav__sub-item\">subitem</li>"
+                      "</ul>"
+                  "</li>"
+                  "<li class=\"nav__item\" data-burger-nav-item><a href=\"#\" class=\"nav__link\">blog</a></li>"
+                  "<li class=\"nav__item\" data-burger-nav-item><a href=\"#\" class=\"nav__link\">price</a></li>"
+                  "<li class=\"nav__item\" data-burger-nav-item><a href=\"#\" class=\"nav__link\">sign in</a></li>"
+              "</ul>"
+          "</nav>"
+          "<button class=\"burger\" data-burger-btn aria-label=\"open menu\" aria-expanded=\"false\">"
+              "<span class=\"burger__line burger__line_top\"></span>"
+              "<span class=\"burger__line burger__line_middle\"></span>"
+              "<span class=\"burger__line burger__line_bottom\"></span>"
+          "</button>"
+      "</div>"
+  "</header>"
+    ],
+    "description": "Snippet for burger menu"
+  },
