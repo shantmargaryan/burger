@@ -6,7 +6,7 @@ new Burger('header', {
         left: true
     },
     offsetSize: {
-        maxWidth: '50%',
+        maxWidth: '70%',
         maxHeight: '100%'
     },
     breakpoint: 768,
@@ -16,4 +16,8 @@ new Burger('header', {
         // defaultValue: true
     },
     speed: 1000,
+    dropdown: {
+        click:true,
+        hover: true
+    }
 })
