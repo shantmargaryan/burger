@@ -230,7 +230,24 @@ body.dis-scroll {
   transition: transform 0.3s ease 0s;
 }
 
+.dropdown>.dropdown-active {
+  position: relative;
+  top: 100%;
+  left: 0;
+}
+
 .dropdown-list .dropdown-list {
+  top: 0;
+  left: 0;
+}
+
+.nav_desctop .dropdown-list {
+  position: absolute;
+  left: 0;
+  top: 100%;
+}
+
+.nav_desctop .dropdown-list .dropdown-list {
   position: absolute;
   top: 0;
   left: 100%;
@@ -240,8 +257,8 @@ body.dis-scroll {
 .dropdown-button {
   position: relative;
   display: inline-block;
-  width: 15px;
-  height: 15px;
+  width: 25px;
+  height: 25px;
   margin-left: 8px;
   cursor: pointer;
 }
@@ -251,8 +268,17 @@ body.dis-scroll {
   position: absolute;
   left: 0;
   top: 0;
-  font-size: 15px;
+  font-size: 25px;
   transition: transform .3s ease 0s;
+}
+
+.nav_desctop .dropdown-button {
+  width: 15px;
+  height: 15px;
+}
+
+.nav_desctop .dropdown-button::after {
+  font-size: 15px;
 }
 
 .dropdown>.dropdown-active {
@@ -283,40 +309,6 @@ body.dis-scroll {
   }
 }
 
-@media (pointer: coarse) {
-  .dropdown>.dropdown-active {
-    visibility: visible;
-    opacity: 1;
-    pointer-events: all;
-    transform: rotateX(0deg);
-  }
-
-  .dropdown-button-active.dropdown-button::after {
-    transform: rotate(180deg);
-  }
-}
-
-@media (pointer: coarse)  {
-  .dropdown>.dropdown-active {
-    position: relative;
-    top: 100%;
-    left: 0;
-  }
-
-  .dropdown-list .dropdown-list {
-    top: 0;
-    left: 0;
-  }
-
-  .dropdown-button {
-    width: 25px;
-    height: 25px;
-  }
-
-  .dropdown-button::after {
-    font-size: 25px;
-  }
-}
 /* /dropdown */
 
 .burger {

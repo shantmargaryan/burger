@@ -18,6 +18,6 @@ new Burger('header', {
     speed: 1000,
     dropdown: {
         click:true,
-        // hover: true
+        hover: true
     }
 })

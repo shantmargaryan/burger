@@ -91,8 +91,8 @@ class Burger {
         }
         if (window.matchMedia('(pointer: fine) and (hover: hover)').matches && this.options.dropdown.hover) {
             this.dropdowns = this.navList.querySelectorAll('.dropdown');
-            this.dropdowns.forEach(dro => {
-                dro.classList.add('dropdown-hover');
+            this.dropdowns.forEach(drop => {
+                drop.classList.add('dropdown-hover');
             })
         }
 
@@ -171,6 +171,7 @@ class Burger {
         this.header.classList.remove('header_desctop');
         this.headerContainer.append(this.burger);
         this.nav.classList.remove('nav_desctop');
+        
         if (this.burger.classList.contains(this.elemsClassNameActive.burger) &&
             this.nav.classList.contains(this.elemsClassNameActive.nav)) {
             disableScroll();
