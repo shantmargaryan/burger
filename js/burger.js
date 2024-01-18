@@ -35,6 +35,10 @@ class Burger {
     constructor(burgerElem, options) {
         let defaultOptions = {
             marker: this.marker,
+            dropdown: {
+                click: this.click,
+                hover: this.hover
+            },
             fixed: {
                 defaultValue: this.defaultValue,
                 scrolling: this.scrolling,
@@ -80,40 +84,23 @@ class Burger {
         this.mediaQuery.addEventListener('change', this.handleMediaChange);
         this.headerClick = this.headerHandle.bind(this);
         this.header.addEventListener('click', this.headerClick);
-        if (this.isMobile.any()) {
+
+        if (window.matchMedia('(pointer:coarse)').matches || this.options.dropdown.click) {
             this.drop = this.dropdownHandle.bind(this);
             this.navList.addEventListener('click', this.drop);
+        }
+        if (window.matchMedia('(pointer: fine) and (hover: hover)').matches && this.options.dropdown.hover) {
+            this.dropdowns = this.navList.querySelectorAll('.dropdown');
+            this.dropdowns.forEach(dro => {
+                dro.classList.add('dropdown-hover');
+            })
         }
 
         this.setWhichSide(true);
         this.getFixed();
         this.initMedia();
     }
-    isMobile = {
-        Android() {
-            return navigator.userAgent.match(/Android/i);
-        },
-        BlackBerry() {
-            return navigator.userAgent.match(/BlackBerry/i);
-        },
-        iOS() {
-            return navigator.userAgent.match(/iPhone|iPad|iPod/i);
-        },
-        Opera() {
-            return navigator.userAgent.match(/Opera Mini/i);
-        },
-        Windows() {
-            return navigator.userAgent.match(/IEMobile/i);
-        },
-        any() {
-            return (
-                this.Android() ||
-                this.BlackBerry() ||
-                this.iOS() ||
-                this.Opera() ||
-                this.Windows());
-        }
-    };
+
     navToggle(open) {
         this.header.classList.toggle('header_active', open);
         this.burger?.classList.toggle(this.elemsClassNameActive.burger, open);
@@ -221,30 +208,33 @@ class Burger {
         }
     }
     dropdownHandle(e) {
-        this.navList.querySelectorAll('.dropdown').forEach(item => {
-            if (item) {
-                if (e.target.nodeName !== 'SPAN') return;
-                closeAllSubMneu(e.target.nextElementSibling);
-                e.target.nextElementSibling.classList.toggle('dropdown-active');
-                function closeAllSubMneu(current = null) {
-                    const parents = [];
-                    if (current) {
-                        let currentParent = current.parentNode;
-                        while (currentParent) {
-                            if (currentParent.classList.contains('nav__list')) break;
-                            if (currentParent.nodeName === "UL") parents.push(currentParent);
-                            currentParent = currentParent.parentNode;
-                        }
-                    }
-                    const subMneu = document.querySelectorAll('.dropdown-list');
-                    subMneu.forEach(menu => {
-                        if (menu != current && !parents.includes(menu)) {
-                            menu.classList.remove('dropdown-active');
-                        }
-                    });
+        if (e.target.nodeName !== 'SPAN') return;
+        closeAllSubMneu(e.target.nextElementSibling);
+        e.target.parentNode.classList.toggle('dropdown-active')
+        e.target.classList.toggle('dropdown-button-active')
+        e.target.nextElementSibling.classList.toggle('dropdown-active');
+        function closeAllSubMneu(current = null) {
+            const parents = [];
+            if (current) {
+                let currentParent = current.parentNode;
+                while (currentParent) {
+                    if (currentParent.classList.contains('nav__list')) break;
+                    if (currentParent.nodeName === "UL") parents.push(currentParent);
+                    currentParent = currentParent.parentNode;
                 }
             }
-        });
+            const subMneu = document.querySelectorAll('.nav__list ul');
+            subMneu.forEach(menu => {
+                if (menu != current && !parents.includes(menu)) {
+                    menu.classList.remove('dropdown-active');
+                    if (menu.previousElementSibling.nodeName === 'SPAN' && !menu.classList.contains('dropdown-active')) {
+                        menu.previousElementSibling.classList.remove('dropdown-button-active')
+                        menu.parentNode.classList.remove('dropdown-active')
+                    }
+                }
+            });
+        }
+        this.navList.addEventListener('mouseleave', closeAllSubMneu)
     }
     headerHandle(e) {
         const currentNavItem = e.target.closest('.nav__item');
@@ -263,6 +253,8 @@ class Burger {
                 currentNavItem.classList.add('nav__item_active');
             }
             const subMneu = document.querySelectorAll('.dropdown-list');
+            const subButtons = this.navList.querySelectorAll('.dropdown-button');
+            subButtons.forEach(button => button.classList.remove('dropdown-button-active'))
             subMneu.forEach(menu => menu.classList.remove('dropdown-active'));
             this.navHide();
         }
