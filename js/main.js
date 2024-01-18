@@ -16,7 +16,4 @@ new Burger('header', {
         // defaultValue: true
     },
     speed: 1000,
-    dropdown: {
-        click: true
-    }
 })

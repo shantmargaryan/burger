@@ -35,10 +35,6 @@ class Burger {
     constructor(burgerElem, options) {
         let defaultOptions = {
             marker: this.marker,
-            dropdown: {
-                click: this.click,
-                hover: this.hover
-            },
             fixed: {
                 defaultValue: this.defaultValue,
                 scrolling: this.scrolling,
@@ -68,6 +64,7 @@ class Burger {
         this.header = document.querySelector(`[data-burger-header="${burgerElem}"]`);
         this.headerContainer = this.header.querySelector('.header__container');
         this.nav = this.header?.querySelector('[data-burger-nav]');
+        this.navList = this.nav?.querySelector('.nav__list');
         this.navItems = this.nav?.querySelectorAll('[data-burger-nav-item]');
         this.burger = this.header?.querySelector('[data-burger-btn]');
         this.mediaQuery = window.matchMedia(`(min-width: ${this.options.breakpoint}px)`);
@@ -77,13 +74,18 @@ class Burger {
             burger: 'burger_active',
         }
         this.header.style.setProperty('--burger-speed', `${this.options.speed}ms`)
-        this.headerClickHandle = this.headerClickHandle.bind(this);
+
         this.documentEventKey = this.documentEventKey.bind(this);
         this.handleMediaChange = this.handleMediaChange.bind(this);
         this.mediaQuery.addEventListener('change', this.handleMediaChange);
-        this.header.addEventListener('click', this.headerClickHandle);
-        
-        this.setWhichSide(true)
+        this.headerClick = this.headerHandle.bind(this);
+        this.header.addEventListener('click', this.headerClick);
+        if (this.isMobile.any()) {
+            this.drop = this.dropdownHandle.bind(this);
+            this.navList.addEventListener('click', this.drop);
+        }
+
+        this.setWhichSide(true);
         this.getFixed();
         this.initMedia();
     }
@@ -112,7 +114,6 @@ class Burger {
                 this.Windows());
         }
     };
-
     navToggle(open) {
         this.header.classList.toggle('header_active', open);
         this.burger?.classList.toggle(this.elemsClassNameActive.burger, open);
@@ -120,7 +121,6 @@ class Burger {
         this.burger?.setAttribute('aria-expanded', open.toString());
         this.burger?.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
     }
-
     navShow() {
         this.navToggle(true);
         disableScroll()
@@ -128,7 +128,6 @@ class Burger {
         this.setWhichSide(false);
         this.setPosition();
     }
-
     navHide() {
         this.navToggle(false);
         enableScroll();
@@ -136,7 +135,6 @@ class Burger {
         this.setWhichSide(true);
         this.setPosition();
     }
-
     getOffsetSize(open) {
         if (open) {
             this.nav.style.setProperty('--max-height', this.options.offsetSize.maxHeight);
@@ -146,7 +144,6 @@ class Burger {
             this.nav.style.removeProperty('--max-width');
         }
     }
-
     setWhichSide(open) {
         const { top, bottom, right, left } = this.options.whichSide;
         top && this.nav.style.setProperty('inset', ` ${open ? '-100%' : 0} 0 ${open ? '100%' : 0} 0`);
@@ -204,7 +201,6 @@ class Burger {
         this.getOffsetSize(false);
         this.getOverlay(false);
     }
-
     initMedia() {
         this.mediaQuery.matches ? this.desctopVersion() : this.mobileVersion();
     }
@@ -224,17 +220,35 @@ class Burger {
             open && this.headerContainer?.append(overlay);
         }
     }
-
-    dropdownClickHandle(e) {
-
+    dropdownHandle(e) {
+        this.navList.querySelectorAll('.dropdown').forEach(item => {
+            if (item) {
+                if (e.target.nodeName !== 'SPAN') return;
+                closeAllSubMneu(e.target.nextElementSibling);
+                e.target.nextElementSibling.classList.toggle('dropdown-active');
+                function closeAllSubMneu(current = null) {
+                    const parents = [];
+                    if (current) {
+                        let currentParent = current.parentNode;
+                        while (currentParent) {
+                            if (currentParent.classList.contains('nav__list')) break;
+                            if (currentParent.nodeName === "UL") parents.push(currentParent);
+                            currentParent = currentParent.parentNode;
+                        }
+                    }
+                    const subMneu = document.querySelectorAll('.dropdown-list');
+                    subMneu.forEach(menu => {
+                        if (menu != current && !parents.includes(menu)) {
+                            menu.classList.remove('dropdown-active');
+                        }
+                    });
+                }
+            }
+        });
     }
-    dropdownHoverHandle(e) {
-
-    }
-    headerClickHandle(e) {
+    headerHandle(e) {
         const currentNavItem = e.target.closest('.nav__item');
-        // const subItem = currentNavItem.querySelector('․nav__sub-list');
-
+        const currentNavLink = e.target.closest('.nav__link');
         if (e.target.closest('.burger')) {
             if (this.burger.classList.contains(this.elemsClassNameActive.burger) &&
                 this.nav.classList.contains(this.elemsClassNameActive.nav)) {
@@ -243,19 +257,14 @@ class Burger {
                 this.navShow();
             }
         }
-
-        if (currentNavItem) {
+        if (currentNavLink) {
             if (this.options.marker) {
                 this.navItems.forEach(item => item.classList.remove('nav__item_active'));
                 currentNavItem.classList.add('nav__item_active');
             }
-
-            if (this.options.dropdown.click) {
-                const hasDropdownActive = currentNavItem.classList.contains('dropdown_active');
-                this.navItems.forEach(item => item.classList.remove('dropdown_active'));
-                currentNavItem.classList.toggle('dropdown_active', !hasDropdownActive);
-            }
-            !this.options.dropdown && this.navHide();
+            const subMneu = document.querySelectorAll('.dropdown-list');
+            subMneu.forEach(menu => menu.classList.remove('dropdown-active'));
+            this.navHide();
         }
         // click to overlay
         e.target.closest('.header__overlay') && this.navHide();

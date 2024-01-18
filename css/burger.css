@@ -206,11 +206,11 @@ body.dis-scroll {
 }
 
 /* dropdown */
-.nav__sub-list .nav__sub-item {
+.dropdown {
   position: relative;
 }
 
-.nav__sub-list {
+.dropdown-list {
   position: absolute;
   left: 0;
   top: 100%;
@@ -228,48 +228,51 @@ body.dis-scroll {
   transition: transform 0.3s ease 0s, visibility 0.3s ease 0s;
 }
 
-.nav__sub-list .nav__sub-list {
+.dropdown-list .dropdown-list {
   position: absolute;
   top: 0;
   left: 100%;
   transition: transform 0.3s ease 0s, visibility 0.3s ease 0s;
 }
 
-.nav__list li:hover > .nav__sub-list {
-  visibility: visible;
-  opacity: 1;
-  pointer-events: all;
-  transform: rotateX(0deg);
+.dropdown-button {
+  position: relative;
 }
 
-.dropdown_active .nav__sub-list {
-  visibility: visible;
-  opacity: 1;
-  pointer-events: all;
-}
-
-.nav__sub-item {
-  cursor: pointer;
-  &:not(:last-child) {
-    margin-bottom: 10px;
-  }
-}
-
-.dropdown__button:after {
+.dropdown-button::after {
   content: "\25BC";
-  position: absolute;
-  right: -15px;
-  font-size: 16px;
+  margin-left: 8px;
+  font-size: 20px;
   transition: transform .3s ease 0s;
-}
-
-.dropdown__button_active:after {
-  transform: rotate(180deg);
+  cursor: pointer;
 }
 
 @media (pointer: fine) and (hover: hover) {
+  .dropdown:hover > .dropdown-list {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: all;
+    transform: rotateX(0deg);
+  }
+
+  .dropdown:hover > .dropdown-button::after {
+    transform: rotate(180deg);
+  }
+
   .nav__link:hover {
     color: #e21607;
+  }
+}
+
+@media (pointer: coarse) {
+  .dropdown-list.dropdown-active {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: all;
+    transform: rotateX(0deg);
+  }
+  .dropdown-active > .dropdown-button::after {
+    transform: rotate(180deg);
   }
 }
 
