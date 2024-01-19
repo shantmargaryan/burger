@@ -85,7 +85,7 @@ class Burger {
         this.headerClick = this.headerHandle.bind(this);
         this.header.addEventListener('click', this.headerClick);
 
-        if (window.matchMedia('(pointer:coarse)').matches || this.options.dropdown.click) {
+        if (window.matchMedia('(pointer:coarse)').matches || this.options.dropdown.click && !this.options.dropdown.hover) {
             this.drop = this.dropdownHandle.bind(this);
             this.navList.addEventListener('click', this.drop);
         }
@@ -209,12 +209,14 @@ class Burger {
         }
     }
     dropdownHandle(e) {
-        if (e.target.nodeName !== 'SPAN') return;
-        closeAllSubMneu(e.target.nextElementSibling);
-        e.target.parentNode.classList.toggle('dropdown-active')
-        e.target.classList.toggle('dropdown-button-active')
-        e.target.nextElementSibling.classList.toggle('dropdown-active');
-        function closeAllSubMneu(current = null) {
+        if (!e.target.closest('.dropdown-button')) return;
+        const dropdownList = e.target.closest('.dropdown').querySelector('.dropdown-list');
+        closeAllSubMenu(dropdownList);
+        e.target.closest('.dropdown').classList.toggle('dropdown-active');
+        e.target.classList.toggle('dropdown-button-active');
+        dropdownList.classList.toggle('dropdown-list-active');
+        // function to close all submenus
+        function closeAllSubMenu(current = null) {
             const parents = [];
             if (current) {
                 let currentParent = current.parentNode;
@@ -224,22 +226,34 @@ class Burger {
                     currentParent = currentParent.parentNode;
                 }
             }
-            const subMneu = document.querySelectorAll('.nav__list ul');
-            subMneu.forEach(menu => {
+            const subMenu = document.querySelectorAll('.nav__list ul');
+            subMenu.forEach(menu => {
                 if (menu != current && !parents.includes(menu)) {
-                    menu.classList.remove('dropdown-active');
-                    if (menu.previousElementSibling.nodeName === 'SPAN' && !menu.classList.contains('dropdown-active')) {
-                        menu.previousElementSibling.classList.remove('dropdown-button-active')
+                    menu.classList.remove('dropdown-list-active');
+                    const dropdownButton = menu.parentNode.querySelector('.dropdown-button');
+                    if (menu.parentNode.querySelector('.dropdown-button') && !menu.classList.contains('dropdown-list-active')) {
+                        dropdownButton.classList.remove('dropdown-button-active')
                         menu.parentNode.classList.remove('dropdown-active')
                     }
                 }
             });
         }
-        this.navList.addEventListener('mouseleave', closeAllSubMneu)
+        const clickOutsideDropdown = (event) => {
+            if (!event.target.closest('.nav__list')) {
+                closeAllSubMenu();
+                document.removeEventListener("click", clickOutsideDropdown);
+            }
+        }
+        // click on document outside dropdown
+        document.addEventListener("click", clickOutsideDropdown);
+
+        // mouse leave on document outside dropdown
+        // this.navList.addEventListener('mouseleave', closeAllSubMneu)
     }
     headerHandle(e) {
         const currentNavItem = e.target.closest('.nav__item');
         const currentNavLink = e.target.closest('.nav__link');
+        // click to burger button
         if (e.target.closest('.burger')) {
             if (this.burger.classList.contains(this.elemsClassNameActive.burger) &&
                 this.nav.classList.contains(this.elemsClassNameActive.nav)) {
@@ -248,15 +262,16 @@ class Burger {
                 this.navShow();
             }
         }
+        // click to .nav__link
         if (currentNavLink) {
             if (this.options.marker) {
                 this.navItems.forEach(item => item.classList.remove('nav__item_active'));
                 currentNavItem.classList.add('nav__item_active');
             }
-            const subMneu = document.querySelectorAll('.dropdown-list');
+            const subMenu = document.querySelectorAll('.dropdown-list');
             const subButtons = this.navList.querySelectorAll('.dropdown-button');
             subButtons.forEach(button => button.classList.remove('dropdown-button-active'))
-            subMneu.forEach(menu => menu.classList.remove('dropdown-active'));
+            subMenu.forEach(menu => menu.classList.remove('dropdown-active'));
             this.navHide();
         }
         // click to overlay

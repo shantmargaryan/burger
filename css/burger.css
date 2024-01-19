@@ -230,7 +230,7 @@ body.dis-scroll {
   transition: transform 0.3s ease 0s;
 }
 
-.dropdown>.dropdown-active {
+.dropdown>.dropdown-list-active {
   position: relative;
   top: 100%;
   left: 0;
@@ -256,9 +256,11 @@ body.dis-scroll {
 
 .dropdown-button {
   position: relative;
-  display: inline-block;
   width: 25px;
   height: 25px;
+  padding: 0;
+  border: none;
+  background: transparent;
   margin-left: 8px;
   cursor: pointer;
 }
@@ -267,7 +269,7 @@ body.dis-scroll {
   content: "\25BC";
   position: absolute;
   left: 0;
-  top: 0;
+  top: -7px;
   font-size: 25px;
   transition: transform .3s ease 0s;
 }
@@ -281,7 +283,7 @@ body.dis-scroll {
   font-size: 15px;
 }
 
-.dropdown>.dropdown-active {
+.dropdown>.dropdown-list-active {
   visibility: visible;
   opacity: 1;
   pointer-events: all;
