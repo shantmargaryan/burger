@@ -231,9 +231,9 @@ class Burger {
                 if (menu != current && !parents.includes(menu)) {
                     menu.classList.remove('dropdown-list-active');
                     const dropdownButton = menu.parentNode.querySelector('.dropdown-button');
-                    if (menu.parentNode.querySelector('.dropdown-button') && !menu.classList.contains('dropdown-list-active')) {
-                        dropdownButton.classList.remove('dropdown-button-active')
-                        menu.parentNode.classList.remove('dropdown-active')
+                    if (dropdownButton && !menu.classList.contains('dropdown-list-active')) {
+                        dropdownButton.classList.remove('dropdown-button-active');
+                        menu.parentNode.classList.remove('dropdown-active');
                     }
                 }
             });
@@ -271,7 +271,7 @@ class Burger {
             const subMenu = document.querySelectorAll('.dropdown-list');
             const subButtons = this.navList.querySelectorAll('.dropdown-button');
             subButtons.forEach(button => button.classList.remove('dropdown-button-active'))
-            subMenu.forEach(menu => menu.classList.remove('dropdown-active'));
+            subMenu.forEach(menu => menu.classList.remove('dropdown-list-active'));
             this.navHide();
         }
         // click to overlay
