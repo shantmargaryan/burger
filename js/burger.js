@@ -1,36 +1,3 @@
-// անջատել scroll
-const disableScroll = () => {
-    const fixBlocks = document?.querySelectorAll('[data-fixed-block]');
-    const pagePosition = window.scrollY;
-    const paddingOffset = `${(window.innerWidth - document.body.offsetWidth)}px`;
-    document.documentElement.style.scrollBehavior = 'auto';
-    fixBlocks.forEach(el => { el.style.paddingRight = paddingOffset; });
-    document.body.style.paddingRight = paddingOffset;
-    document.body.classList.add('dis-scroll');
-    document.body.dataset.position = pagePosition;
-    document.querySelector('.header').style.top = `${pagePosition}px`;
-    document.body.style.top = `-${pagePosition}px`;
-}
-
-// վերականգնել scroll
-const enableScroll = () => {
-    const fixBlocks = document?.querySelectorAll('[data-fixed-block]');
-    const pagePosition = parseInt(document.body.dataset.position, 10);
-    fixBlocks.forEach(el => { el.style.paddingRight = '0'; });
-    document.body.style.paddingRight = '0px';
-    document.body.style.top = '';
-    document.querySelector('.header').style.top = 0;
-    document.body.classList.remove('dis-scroll');
-    window.scroll({
-        top: pagePosition,
-        left: 0
-    });
-    document.body.removeAttribute('data-position');
-    if (getComputedStyle(document.documentElement).scrollBehavior == 'smooth') {
-        document.documentElement.style.scrollBehavior = 'smooth';
-    }
-}
-
 class Burger {
     constructor(burgerElem, options) {
         let defaultOptions = {
@@ -89,7 +56,7 @@ class Burger {
             this.drop = this.dropdownHandle.bind(this);
             this.navList.addEventListener('click', this.drop);
         }
-        if (window.matchMedia('(pointer: fine) and (hover: hover)').matches && this.options.dropdown.hover) {
+        if (window.matchMedia(`(pointer: fine) and (hover: hover)`).matches && this.options.dropdown.hover) {
             this.dropdowns = this.navList.querySelectorAll('.dropdown');
             this.dropdowns.forEach(drop => {
                 drop.classList.add('dropdown-hover');
@@ -101,6 +68,39 @@ class Burger {
         this.initMedia();
     }
 
+    // անջատել scroll
+    disableScroll() {
+        const fixBlocks = document?.querySelectorAll('[data-fixed-block]');
+        const pagePosition = window.scrollY;
+        const paddingOffset = `${(window.innerWidth - document.body.offsetWidth)}px`;
+        document.documentElement.style.scrollBehavior = 'auto';
+        fixBlocks.forEach(el => { el.style.paddingRight = paddingOffset; });
+        document.body.style.paddingRight = paddingOffset;
+        document.body.classList.add('dis-scroll');
+        document.body.dataset.position = pagePosition;
+        document.querySelector('.header').style.top = `${pagePosition}px`;
+        document.body.style.top = `-${pagePosition}px`;
+    }
+
+    // վերականգնել scroll
+    enableScroll() {
+        const fixBlocks = document?.querySelectorAll('[data-fixed-block]');
+        const pagePosition = parseInt(document.body.dataset.position, 10);
+        fixBlocks.forEach(el => { el.style.paddingRight = '0'; });
+        document.body.style.paddingRight = '0px';
+        document.body.style.top = '';
+        document.querySelector('.header').style.top = 0;
+        document.body.classList.remove('dis-scroll');
+        window.scroll({
+            top: pagePosition,
+            left: 0
+        });
+        document.body.removeAttribute('data-position');
+        if (getComputedStyle(document.documentElement).scrollBehavior == 'smooth') {
+            document.documentElement.style.scrollBehavior = 'smooth';
+        }
+    }
+
     navToggle(open) {
         this.header.classList.toggle('header_active', open);
         this.burger?.classList.toggle(this.elemsClassNameActive.burger, open);
@@ -110,14 +110,14 @@ class Burger {
     }
     navShow() {
         this.navToggle(true);
-        disableScroll()
+        this.disableScroll()
         document.body.addEventListener("keydown", this.documentEventKey);
         this.setWhichSide(false);
         this.setPosition();
     }
     navHide() {
         this.navToggle(false);
-        enableScroll();
+        this.enableScroll();
         document.body.removeEventListener("keydown", this.documentEventKey);
         this.setWhichSide(true);
         this.setPosition();
@@ -171,10 +171,10 @@ class Burger {
         this.header.classList.remove('header_desctop');
         this.headerContainer.append(this.burger);
         this.nav.classList.remove('nav_desctop');
-        
+
         if (this.burger.classList.contains(this.elemsClassNameActive.burger) &&
             this.nav.classList.contains(this.elemsClassNameActive.nav)) {
-            disableScroll();
+            this.disableScroll();
         }
         this.nav.style.paddingTop = this.nav.closest('.header').offsetHeight + "px";
         this.nav.setAttribute('data-fixed-block', '');
@@ -185,7 +185,7 @@ class Burger {
         this.nav.classList.add('nav_desctop');
         this.burger.remove();
         this.nav.style.paddingTop = '';
-        enableScroll();
+        this.enableScroll();
         this.getOffsetSize(false);
         this.getOverlay(false);
     }
