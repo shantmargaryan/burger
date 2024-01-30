@@ -37,6 +37,7 @@ class Burger {
         this.nav = this.header?.querySelector('[data-burger-nav]');
         this.navList = this.nav?.querySelector('.nav__list');
         this.navItems = this.nav?.querySelectorAll('[data-burger-nav-item]');
+        this.navSubItems = this.navList?.querySelectorAll('.nav__sub-item');
         this.burger = this.header?.querySelector('[data-burger-btn]');
         this.mediaQuery = window.matchMedia(`(min-width: ${this.options.breakpoint}px)`);
 
@@ -199,15 +200,15 @@ class Burger {
         e.key === "Escape" && this.navHide();
     }
     getOverlay(open) {
-        if (this.options.overlay) {
-            const overlay = document.createElement('div');
-            overlay.classList.add('header__overlay');
-            this.headerContainer = this.header?.querySelector('.header__container');
+        if (this.options.overlay) return;
+        const overlay = document.createElement('div');
+        overlay.classList.add('header__overlay');
+        this.headerContainer = this.header?.querySelector('.header__container');
 
-            !open && this.header?.querySelector('.header__overlay')?.remove();
-            open && this.headerContainer?.append(overlay);
-        }
+        !open && this.header?.querySelector('.header__overlay')?.remove();
+        open && this.headerContainer?.append(overlay);
     }
+
     dropdownHandle(e) {
         if (!e.target.closest('.dropdown-button')) return;
         const dropdownList = e.target.closest('.dropdown').querySelector('.dropdown-list');
@@ -215,6 +216,7 @@ class Burger {
         e.target.closest('.dropdown').classList.toggle('dropdown-active');
         e.target.classList.toggle('dropdown-button-active');
         dropdownList.classList.toggle('dropdown-list-active');
+
         // function to close all submenus
         function closeAllSubMenu(current = null) {
             const parents = [];
@@ -248,8 +250,14 @@ class Burger {
         document.addEventListener("click", clickOutsideDropdown);
 
         // mouse leave on document outside dropdown
-        // this.navList.addEventListener('mouseleave', closeAllSubMneu)
+        // this.navList.addEventListener('mouseleave', closeAllSubMenu)
     }
+    // controlDropdownHaveArrowKey(event) {
+    //     const buttonIndex = Array.from(this.navSubItems).indexOf(event.target);
+    //     const offset = event.code === 'ArrowUp' ? -1 : event.code === 'ArrowDown' ? 1 : 0;
+    //     const nextIndex = (buttonIndex + offset + this.navSubItems.length) % this.navSubItems.length;
+    //     this.navSubItems[nextIndex].focus();
+    // }
     headerHandle(e) {
         const currentNavItem = e.target.closest('.nav__item');
         const currentNavLink = e.target.closest('.nav__link');
