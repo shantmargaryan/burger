@@ -5,10 +5,10 @@ new Burger('header', {
     position: {
         left: true
     },
-    offsetSize: {
-        maxWidth: '70%',
-        maxHeight: '100%'
-    },
+    // offsetSize: {
+    //     maxWidth: '70%',
+    //     maxHeight: '100%'
+    // },
     breakpoint: 768,
     overlay: true,
     fixed: {

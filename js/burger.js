@@ -127,9 +127,7 @@ class Burger {
         if (open) {
             this.nav.style.setProperty('--max-height', this.options.offsetSize.maxHeight);
             this.nav.style.setProperty('--max-width', this.options.offsetSize.maxWidth);
-        } else {
-            this.nav.style.removeProperty('--max-height');
-            this.nav.style.removeProperty('--max-width');
+            return;
         }
     }
     setWhichSide(open) {
@@ -264,14 +262,11 @@ class Burger {
         // click to burger button
         if (e.target.closest('.burger')) {
             if (this.burger.classList.contains(this.elemsClassNameActive.burger) &&
-                this.nav.classList.contains(this.elemsClassNameActive.nav)) {
-                this.navHide();
-            } else {
-                this.navShow();
-            }
+                this.nav.classList.contains(this.elemsClassNameActive.nav)) this.navHide() 
+            else this.navShow();
         }
         // click to .nav__link
-        if (currentNavLink) {
+        if (!currentNavLink) return;
             if (this.options.marker) {
                 this.navItems.forEach(item => item.classList.remove('nav__item_active'));
                 currentNavItem.classList.add('nav__item_active');
@@ -281,7 +276,7 @@ class Burger {
             subButtons.forEach(button => button.classList.remove('dropdown-button-active'))
             subMenu.forEach(menu => menu.classList.remove('dropdown-list-active'));
             this.navHide();
-        }
+        
         // click to overlay
         e.target.closest('.header__overlay') && this.navHide();
     }
