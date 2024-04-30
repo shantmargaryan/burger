@@ -2,13 +2,13 @@ new Burger('header', {
     whichSide: {
         bottom: true
     },
-    // position: {
-    //     right: true
-    // },
-    // offsetSize: {
-    //     maxWidth: '70%',
-    //     maxHeight: '100%'
-    // },
+    position: {
+        right: true
+    },
+    offsetSize: {
+        maxWidth: '70%',
+        maxHeight: '100%'
+    },
     breakpoint: 768,
     overlay: true,
     fixed: {
