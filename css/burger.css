@@ -249,11 +249,6 @@ body.dis-scroll {
   left: 0;
 }
 
-.dropdown-list .dropdown-list {
-  top: 0;
-  left: 0;
-}
-
 .nav_desctop .dropdown-list {
   position: absolute;
   left: 0;
