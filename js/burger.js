@@ -112,14 +112,14 @@ class Burger {
         this.disableScroll()
         document.body.addEventListener("keydown", this.documentEventKey);
         this.setWhichSide(false);
-        this.setPosition();
+        // this.setPosition();
     }
     navHide() {
         this.navToggle(false);
         this.enableScroll();
         document.body.removeEventListener("keydown", this.documentEventKey);
         this.setWhichSide(true);
-        this.setPosition();
+        // this.setPosition();
     }
     getOffsetSize(open) {
         if (open) {
@@ -164,7 +164,7 @@ class Burger {
     mobileVersion() {
         this.getOffsetSize(true);
         this.getOverlay(true);
-        this.setPosition()
+        // this.setPosition()
         this.header.classList.remove('header_desctop');
         this.headerContainer.append(this.burger);
         this.nav.classList.remove('nav_desctop');

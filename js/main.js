@@ -1,10 +1,10 @@
 new Burger('header', {
     whichSide: {
-        right: true
+        bottom: true
     },
-    position: {
-        left: true
-    },
+    // position: {
+    //     right: true
+    // },
     // offsetSize: {
     //     maxWidth: '70%',
     //     maxHeight: '100%'
@@ -17,7 +17,7 @@ new Burger('header', {
     },
     speed: 1000,
     dropdown: {
-        click:true,
+        click: true,
         hover: true
     }
 })
