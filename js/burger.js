@@ -69,7 +69,6 @@ class Burger {
         this.initMedia();
     }
 
-    // անջատել scroll
     disableScroll() {
         const fixBlocks = document?.querySelectorAll('[data-fixed-block]');
         const pagePosition = window.scrollY;
@@ -83,7 +82,6 @@ class Burger {
         document.body.style.top = `-${pagePosition}px`;
     }
 
-    // վերականգնել scroll
     enableScroll() {
         const fixBlocks = document?.querySelectorAll('[data-fixed-block]');
         const pagePosition = parseInt(document.body.dataset.position, 10);
@@ -177,12 +175,11 @@ class Burger {
         }
         this.nav.style.paddingTop = this.nav.closest('.header').offsetHeight + "px";
         this.nav.setAttribute('data-fixed-block', '');
-
     }
     desctopVersion() {
         this.header.classList.add('header_desctop');
         this.nav.classList.add('nav_desctop');
-        this.burger.remove();
+        this.burger?.remove();
         this.nav.style.paddingTop = '';
         this.enableScroll();
         this.getOffsetSize(false);
