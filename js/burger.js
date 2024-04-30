@@ -195,7 +195,7 @@ class Burger {
         e.key === "Escape" && this.navHide();
     }
     getOverlay(open) {
-        if (this.options.overlay) return;
+        if (!this.options.overlay) return;
         const overlay = document.createElement('div');
         overlay.classList.add('header__overlay');
         this.headerContainer = this.header?.querySelector('.header__container');
@@ -259,11 +259,11 @@ class Burger {
         // click to burger button
         if (e.target.closest('.burger')) {
             if (this.burger.classList.contains(this.elemsClassNameActive.burger) &&
-                this.nav.classList.contains(this.elemsClassNameActive.nav)) this.navHide() 
+                this.nav.classList.contains(this.elemsClassNameActive.nav)) this.navHide()
             else this.navShow();
         }
         // click to .nav__link
-        if (!currentNavLink) return;
+        if (currentNavLink) {
             if (this.options.marker) {
                 this.navItems.forEach(item => item.classList.remove('nav__item_active'));
                 currentNavItem.classList.add('nav__item_active');
@@ -273,7 +273,7 @@ class Burger {
             subButtons.forEach(button => button.classList.remove('dropdown-button-active'))
             subMenu.forEach(menu => menu.classList.remove('dropdown-list-active'));
             this.navHide();
-        
+        }
         // click to overlay
         e.target.closest('.header__overlay') && this.navHide();
     }
