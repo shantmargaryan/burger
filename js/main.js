@@ -1,7 +1,7 @@
 new Burger('header', {
     marker: true,
     whichSide: {
-        top: true
+        left: true
     },
     position: {
         left: true
@@ -10,8 +10,8 @@ new Burger('header', {
         maxWidth: '500px',
         maxHeight: '100%'
     },
-    breakpoint: 992,
-    // overlay: true,
+    breakpoint: 768,
+    overlay: true,
     fixed: {
         scrolling: 500,
         // defaultValue: true
