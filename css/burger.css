@@ -229,7 +229,7 @@ body.dis-scroll {
 .dropdown-list {
   position: absolute;
   left: 0;
-  top: 100%;
+  /* top: 100%; */
   z-index: 10;
   min-width: 130px;
   padding: 10px;
@@ -246,14 +246,14 @@ body.dis-scroll {
 
 .dropdown>.dropdown-list-active {
   position: relative;
-  top: 100%;
+  /* top: 100%; */
   left: 0;
 }
 
 .nav_desctop .dropdown-list {
   position: absolute;
   left: 0;
-  top: 100%;
+  /* top: 100%; */
 }
 
 .nav_desctop .dropdown-list .dropdown-list {
