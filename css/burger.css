@@ -8,7 +8,6 @@
   --header-color: #1a84f4;
 }
 
-
 html {
   box-sizing: border-box;
   scroll-behavior: smooth;
@@ -218,7 +217,7 @@ body.dis-scroll {
   transition: color 0.3s ease 0s;
 }
 
-.nav__item_active .nav__link {
+.nav__item_active>.nav__link {
   color: #e21607;
 }
 
@@ -281,8 +280,14 @@ body.dis-scroll {
   left: 0;
   top: -7px;
   font-size: 25px;
+  color: #000;
   transition: transform .3s ease 0s;
 }
+
+.nav__sub-item {
+  color: #fff;
+}
+
 
 .nav_desctop .dropdown-button {
   width: 15px;
