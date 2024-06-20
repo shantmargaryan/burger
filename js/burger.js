@@ -99,8 +99,13 @@ class Burger {
             document.documentElement.style.scrollBehavior = 'smooth';
         }
     }
-
+    calcBurgerSize(open) {
+        const burgerLines = this.burger.querySelectorAll('.burger__line');
+        burgerLines[0].style.transform = open ? `translateY(${(this.burger.offsetHeight / 2) - (burgerLines[0].offsetHeight / 2)}px) rotate(45deg)` : 'translateY(0) rotate(0)';
+        burgerLines[2].style.transform = open ? `translateY(${(this.burger.offsetHeight / -2) - (burgerLines[2].offsetHeight / -2)}px) rotate(-45deg)` : 'translateY(0) rotate(0)';
+    }
     navToggle(open) {
+        this.calcBurgerSize(open);
         this.header.classList.toggle('header_active', open);
         this.burger?.classList.toggle(this.elemsClassNameActive.burger, open);
         this.nav?.classList.toggle(this.elemsClassNameActive.nav, open);
@@ -166,7 +171,7 @@ class Burger {
         this.getOverlay(true);
         this.setPosition()
         this.header.classList.remove('header_desctop');
-        this.headerContainer.append(this.burger);
+        this.burger.classList.add('burger_show');
         this.nav.classList.remove('nav_desctop');
 
         if (this.burger.classList.contains(this.elemsClassNameActive.burger) &&
@@ -179,7 +184,7 @@ class Burger {
     desctopVersion() {
         this.header.classList.add('header_desctop');
         this.nav.classList.add('nav_desctop');
-        this.burger?.remove();
+        this.burger.classList.remove('burger_show')
         this.nav.style.paddingTop = '';
         this.enableScroll();
         this.getOffsetSize(false);

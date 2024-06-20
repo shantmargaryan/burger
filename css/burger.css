@@ -275,7 +275,7 @@ body.dis-scroll {
   content: "\25BC";
   position: absolute;
   left: 0;
-  top: -7px;
+  top: 0;
   font-size: 25px;
   color: #000;
   transition: transform .3s ease 0s;
@@ -328,7 +328,7 @@ body.dis-scroll {
 .burger {
   position: relative;
   z-index: 103;
-  display: inline-flex;
+  display: none;
   flex-direction: column;
   justify-content: space-between;
   box-sizing: inherit;
@@ -340,6 +340,10 @@ body.dis-scroll {
   cursor: pointer;
 }
 
+.burger_show {
+  display: inline-flex;
+}
+
 .burger__line {
   box-sizing: inherit;
   width: 100%;
@@ -349,16 +353,8 @@ body.dis-scroll {
   transition-duration: var(--burger-speed);
 }
 
-.burger_active .burger__line_top {
-  transform: translateY(18px) rotate(45deg);
-}
-
 .burger_active .burger__line_middle {
   transform: scaleX(0);
-}
-
-.burger_active .burger__line_bottom {
-  transform: translateY(-18px) rotate(-45deg);
 }
 
 /* /burger all styles */
