@@ -164,6 +164,10 @@ body.dis-scroll {
   overflow: auto;
 }
 
+.nav {
+  padding-left: 30px;
+}
+
 .nav_open {}
 
 .nav_desctop {
@@ -172,6 +176,7 @@ body.dis-scroll {
   height: auto;
   max-width: 100%;
   max-height: 100%;
+  padding-left: 0;
   background-color: transparent;
   overflow: visible;
 }
