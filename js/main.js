@@ -1,4 +1,4 @@
-new Burger('header', {
+new Burger('.fullburger', {
     marker: true,
     whichSide: {
         right: true

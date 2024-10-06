@@ -1,5 +1,5 @@
 class Burger {
-    constructor(burgerElem, options) {
+    constructor(fullBurgerElem, options) {
         let defaultOptions = {
             marker: this.marker,
             dropdown: {
@@ -32,26 +32,32 @@ class Burger {
         }
 
         this.options = Object.assign(defaultOptions, options);
-        this.header = document.querySelector(`[data-burger-header="${burgerElem}"]`);
-        this.headerContainer = this.header.querySelector('.header__container');
-        this.nav = this.header?.querySelector('[data-burger-nav]');
-        this.navList = this.nav?.querySelector('.nav__list');
-        this.navItems = this.nav?.querySelectorAll('[data-burger-nav-item]');
-        this.navSubItems = this.navList?.querySelectorAll('.nav__sub-item');
-        this.burger = this.header?.querySelector('[data-burger-btn]');
+        this.header = document.querySelector(fullBurgerElem);
+        this.headerContainer = this.header.querySelector('.fullburger-container');
+        this.logo = document.querySelector('.fullburger-logo');
+        this.nav = this.header?.querySelector('.fullburger-nav');
+        this.navList = this.nav?.querySelector('.fullburger-list');
+        this.navItems = this.nav?.querySelectorAll('.fullburger-item');
+        this.navSubItems = this.navList?.querySelectorAll('.fullburger-sub-item');
+        this.burger = document.querySelector('.fullburger-button');
         this.mediaQuery = window.matchMedia(`(min-width: ${this.options.breakpoint}px)`);
 
         this.elemsClassNameActive = {
-            nav: 'nav_open',
-            burger: 'burger_active',
+            nav: 'fullburger-nav_open',
+            burger: 'fullburger-button_active',
         }
-        this.header.style.setProperty('--burger-speed', `${this.options.speed}ms`)
+        document.body.style.setProperty('--burger-speed', `${this.options.speed}ms`)
+        this.nav.setAttribute('title', 'navigation menu');
+        this.burger.setAttribute('aria-label', 'open menu');
+        this.burger.setAttribute('aria-expanded', 'false');
 
         this.documentEventKey = this.documentEventKey.bind(this);
         this.handleMediaChange = this.handleMediaChange.bind(this);
         this.mediaQuery.addEventListener('change', this.handleMediaChange);
         this.headerClick = this.headerHandle.bind(this);
         this.header.addEventListener('click', this.headerClick);
+        this.burgerHandle();
+        this.logoHandle();
 
         if (window.matchMedia('(pointer:coarse)').matches || this.options.dropdown.click && !this.options.dropdown.hover) {
             this.drop = this.dropdownHandle.bind(this);
@@ -78,7 +84,7 @@ class Burger {
         document.body.style.paddingRight = paddingOffset;
         document.body.classList.add('dis-scroll');
         document.body.dataset.position = pagePosition;
-        document.querySelector('.header').style.top = `${pagePosition}px`;
+        document.querySelector('.fullburger').style.top = `${pagePosition}px`;
         document.body.style.top = `-${pagePosition}px`;
     }
 
@@ -88,7 +94,7 @@ class Burger {
         fixBlocks.forEach(el => { el.style.paddingRight = '0'; });
         document.body.style.paddingRight = '0px';
         document.body.style.top = '';
-        document.querySelector('.header').style.top = 0;
+        document.querySelector('.fullburger').style.top = 0;
         document.body.classList.remove('dis-scroll');
         window.scroll({
             top: pagePosition,
@@ -100,13 +106,13 @@ class Burger {
         }
     }
     calcBurgerSize(open) {
-        const burgerLines = this.burger.querySelectorAll('.burger__line');
+        const burgerLines = this.burger.querySelectorAll('span');
         burgerLines[0].style.transform = open ? `translateY(${(this.burger.offsetHeight / 2) - (burgerLines[0].offsetHeight / 2)}px) rotate(45deg)` : 'translateY(0) rotate(0)';
         burgerLines[2].style.transform = open ? `translateY(${(this.burger.offsetHeight / -2) - (burgerLines[2].offsetHeight / -2)}px) rotate(-45deg)` : 'translateY(0) rotate(0)';
     }
     navToggle(open) {
         this.calcBurgerSize(open);
-        this.header.classList.toggle('header_active', open);
+        this.header.classList.toggle('fullburger_active', open);
         this.burger?.classList.toggle(this.elemsClassNameActive.burger, open);
         this.nav?.classList.toggle(this.elemsClassNameActive.nav, open);
         this.burger?.setAttribute('aria-expanded', open.toString());
@@ -156,13 +162,13 @@ class Burger {
         }
     }
     enableFixed() {
-        this.header.classList.add('header_fixed');
+        this.header.classList.add('fullburger_fixed');
         this.header.setAttribute('data-fixed-block', '');
         document.body.style.paddingTop = this.header.offsetHeight + "px";
     }
     disableFixed() {
         this.header.style.setProperty('padding-right', '0')
-        this.header.classList.remove('header_fixed');
+        this.header.classList.remove('fullburger_fixed');
         this.header.removeAttribute('data-fixed-block');
         document.body.style.paddingTop = '';
     }
@@ -170,31 +176,31 @@ class Burger {
         this.getOffsetSize(true);
         this.getOverlay(true);
         this.setPosition()
-        this.header.classList.remove('header_desctop');
-        this.burger.classList.add('burger_show');
-        this.nav.classList.remove('nav_desctop');
+        this.header.classList.remove('fullburger_desktop');
+        this.burger.classList.add('fullburger-button_show');
+        this.nav.classList.remove('fullburger-nav_desktop');
 
         if (this.burger.classList.contains(this.elemsClassNameActive.burger) &&
             this.nav.classList.contains(this.elemsClassNameActive.nav)) {
             this.disableScroll();
         }
-        this.nav.style.paddingTop = this.nav.closest('.header').offsetHeight + "px";
+        this.nav.style.paddingTop = this.nav.closest('.fullburger').offsetHeight + "px";
         this.nav.setAttribute('data-fixed-block', '');
     }
-    desctopVersion() {
-        this.header.classList.add('header_desctop');
-        this.nav.classList.add('nav_desctop');
-        this.burger.classList.remove('burger_show')
+    desktopVersion() {
+        this.header.classList.add('fullburger_desktop');
+        this.nav.classList.add('fullburger-nav_desktop');
+        this.burger.classList.remove('fullburger-button_show')
         this.nav.style.paddingTop = '';
         this.enableScroll();
         this.getOffsetSize(false);
         this.getOverlay(false);
     }
     initMedia() {
-        this.mediaQuery.matches ? this.desctopVersion() : this.mobileVersion();
+        this.mediaQuery.matches ? this.desktopVersion() : this.mobileVersion();
     }
     handleMediaChange(event) {
-        event.matches ? this.desctopVersion() : this.mobileVersion();
+        event.matches ? this.desktopVersion() : this.mobileVersion();
     }
     documentEventKey(e) {
         e.key === "Escape" && this.navHide();
@@ -202,10 +208,10 @@ class Burger {
     getOverlay(open) {
         if (!this.options.overlay) return;
         const overlay = document.createElement('div');
-        overlay.classList.add('header__overlay');
-        this.headerContainer = this.header?.querySelector('.header__container');
+        overlay.classList.add('fullburger-overlay');
+        this.headerContainer = this.header?.querySelector('.fullburger-container');
 
-        !open && this.header?.querySelector('.header__overlay')?.remove();
+        !open && this.header?.querySelector('.fullburger-overlay')?.remove();
         open && this.headerContainer?.append(overlay);
     }
 
@@ -223,12 +229,12 @@ class Burger {
             if (current) {
                 let currentParent = current.parentNode;
                 while (currentParent) {
-                    if (currentParent.classList.contains('nav__list')) break;
+                    if (currentParent.classList.contains('fullburger-list')) break;
                     if (currentParent.nodeName === "UL") parents.push(currentParent);
                     currentParent = currentParent.parentNode;
                 }
             }
-            const subMenu = document.querySelectorAll('.nav__list ul');
+            const subMenu = document.querySelectorAll('.fullburger-list ul');
             subMenu.forEach(menu => {
                 if (menu != current && !parents.includes(menu)) {
                     menu.classList.remove('dropdown-list-active');
@@ -241,7 +247,7 @@ class Burger {
             });
         }
         const clickOutsideDropdown = (event) => {
-            if (!event.target.closest('.nav__list')) {
+            if (!event.target.closest('.fullburger-list')) {
                 closeAllSubMenu();
                 document.removeEventListener("click", clickOutsideDropdown);
             }
@@ -258,20 +264,28 @@ class Burger {
     //     const nextIndex = (buttonIndex + offset + this.navSubItems.length) % this.navSubItems.length;
     //     this.navSubItems[nextIndex].focus();
     // }
-    headerHandle(e) {
-        const currentNavItem = e.target.closest('.nav__item');
-        const currentNavLink = e.target.closest('.nav__link');
-        // click to burger button
-        if (e.target.closest('.burger')) {
+
+    burgerHandle() {
+        this.burger.addEventListener('click', () => {
             if (this.burger.classList.contains(this.elemsClassNameActive.burger) &&
                 this.nav.classList.contains(this.elemsClassNameActive.nav)) this.navHide()
             else this.navShow();
-        }
+        })
+    }
+
+    logoHandle() {
+        this.logo.addEventListener('click', () => this.navHide())
+    }
+
+    headerHandle(e) {
+        const currentNavItem = e.target.closest('.fullburger-item');
+        const currentNavLink = e.target.closest('.fullburger-link');
+
         // click to .nav__link
         if (currentNavLink) {
             if (this.options.marker) {
-                this.navItems.forEach(item => item.classList.remove('nav__item_active'));
-                currentNavItem.classList.add('nav__item_active');
+                this.navItems.forEach(item => item.classList.remove('fullburger-item_active'));
+                currentNavItem.classList.add('fullburger-item_active');
             }
             const subMenu = document.querySelectorAll('.dropdown-list');
             const subButtons = this.navList.querySelectorAll('.dropdown-button');
@@ -280,6 +294,6 @@ class Burger {
             this.navHide();
         }
         // click to overlay
-        e.target.closest('.header__overlay') && this.navHide();
+        e.target.closest('.fullburger-overlay') && this.navHide();
     }
 }

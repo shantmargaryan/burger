@@ -12,9 +12,9 @@
 </head>
 
 <body class="page__body">
-    <header class="header" data-burger-header="header">
-        <div class="header__container">
-            <a class="logo" href="#">
+    <header class="fullburger">
+        <div class="fullburger-container">
+            <a class="fullburger-logo logo" href="#">
                 <svg class="logo__icon" width="184" height="49" viewBox="0 0 184 49" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
                     <path class="logo__letter logo__letter_1" d="M0 48.3479V0.652092H6.1087V43.2243H29.5582V48.3479H0Z"
@@ -30,70 +30,72 @@
                         fill="#D9D9D9" />
                 </svg>
             </a>
-            <nav class="nav" data-burger-nav title="navigation menu">
-                <ul class="nav__list">
-                    <li class="nav__item dropdown" data-burger-nav-item>
-                        <a href="#" class="nav__link">home</a><button class="dropdown-button"></button>
-                        <ul class="nav__sub-list dropdown-list">
-                            <li class="nav__sub-item">subitem</li>
-                            <li class="nav__sub-item dropdown">
-                                <a href="#" class="nav__link">contact</a><button class="dropdown-button"></button>
-                                <ul class="nav__sub-list dropdown-list">
-                                    <li class="nav__sub-item">subitem</li>
-                                    <li class="nav__sub-item dropdown">
-                                        <a href="#" class="nav__link">contact</a><button class="dropdown-button"></button>
-                                        <ul class="nav__sub-list dropdown-list ">
-                                            <li class="nav__sub-item">subitem</li>
-                                            <li class="nav__sub-item">
-                                                <a href="#" class="nav__link">contact</a>
+            <nav class="fullburger-nav">
+                <ul class="fullburger-list">
+                    <li class="fullburger-item dropdown">
+                        <a href="#" class="fullburger-link">home</a><button class="dropdown-button"></button>
+                        <ul class="fullburger-sub-list dropdown-list">
+                            <li class="fullburger-sub-item">subitem</li>
+                            <li class="fullburger-sub-item dropdown">
+                                <a href="#" class="fullburger-link">contact</a><button class="dropdown-button"></button>
+                                <ul class="fullburger-sub-list dropdown-list">
+                                    <li class="fullburger-sub-item">subitem</li>
+                                    <li class="fullburger-sub-item dropdown">
+                                        <a href="#" class="fullburger-link">contact</a><button
+                                            class="dropdown-button"></button>
+                                        <ul class="fullburger-sub-list dropdown-list ">
+                                            <li class="fullburger-sub-item">subitem</li>
+                                            <li class="fullburger-sub-item">
+                                                <a href="#" class="fullburger-link">contact</a>
                                             </li>
-                                            <li class="nav__sub-item">subitem</li>
-                                            <li class="nav__sub-item">subitem</li>
+                                            <li class="fullburger-sub-item">subitem</li>
+                                            <li class="fullburger-sub-item">subitem</li>
                                         </ul>
                                     </li>
-                                    <li class="nav__sub-item">subitem</li>
-                                    <li class="nav__sub-item">subitem</li>
+                                    <li class="fullburger-sub-item">subitem</li>
+                                    <li class="fullburger-sub-item">subitem</li>
                                 </ul>
                             </li>
-                            <li class="nav__sub-item">subitem</li>
-                            <li class="nav__sub-item dropdown">
-                                <a href="#" class="nav__link">contact</a><button class="dropdown-button"></button>
-                                <ul class="nav__sub-list dropdown-list ">
-                                    <li class="nav__sub-item">subitem</li>
-                                    <li class="nav__sub-item">
-                                        <a href="#" class="nav__link">contact</a>
+                            <li class="fullburger-sub-item">subitem</li>
+                            <li class="fullburger-sub-item dropdown">
+                                <a href="#" class="fullburger-link">contact</a><button class="dropdown-button"></button>
+                                <ul class="fullburger-sub-list dropdown-list ">
+                                    <li class="fullburger-sub-item">subitem</li>
+                                    <li class="fullburger-sub-item">
+                                        <a href="#" class="fullburger-link">contact</a>
                                     </li>
-                                    <li class="nav__sub-item">subitem</li>
-                                    <li class="nav__sub-item">subitem</li>
+                                    <li class="fullburger-sub-item">subitem</li>
+                                    <li class="fullburger-sub-item">subitem</li>
                                 </ul>
                             </li>
                         </ul>
                     </li>
-                    <li class="nav__item" data-burger-nav-item><a href="#" class="nav__link">about</a></li>
-                    <li class="nav__item dropdown" data-burger-nav-item>
-                        <a href="#" class="nav__link">contact</a><button class="dropdown-button"></button>
-                        <ul class="nav__sub-list dropdown-list">
-                            <li class="nav__sub-item">subitem</li>
-                            <li class="nav__sub-item">subitem</li>
-                            <li class="nav__sub-item">subitem</li>
-                            <li class="nav__sub-item">subitem</li>
+                    <li class="fullburger-item"><a href="#" class="fullburger-link">about</a></li>
+                    <li class="fullburger-item dropdown">
+                        <a href="#" class="fullburger-link">contact</a><button class="dropdown-button"></button>
+                        <ul class="fullburger-sub-list dropdown-list">
+                            <li class="fullburger-sub-item">subitem</li>
+                            <li class="fullburger-sub-item">subitem</li>
+                            <li class="fullburger-sub-item">subitem</li>
+                            <li class="fullburger-sub-item">subitem</li>
                         </ul>
                     </li>
-                    <li class="nav__item" data-burger-nav-item><a href="#" class="nav__link">blog</a></li>
-                    <li class="nav__item" data-burger-nav-item><a href="#" class="nav__link">price</a></li>
-                    <li class="nav__item" data-burger-nav-item><a href="#" class="nav__link">sign in</a></li>
+                    <li class="fullburger-item"><a href="#" class="fullburger-link">blog</a></li>
+                    <li class="fullburger-item"><a href="#" class="fullburger-link">price</a></li>
+                    <li class="fullburger-item"><a href="#" class="fullburger-link">sign in</a></li>
                 </ul>
             </nav>
-            <button class="burger" data-burger-btn aria-label="open menu" aria-expanded="false">
-                <span class="burger__line burger__line_top"></span>
-                <span class="burger__line burger__line_middle"></span>
-                <span class="burger__line burger__line_bottom"></span>
+            <button class="fullburger-button">
+                <span></span>
+                <span></span>
+                <span></span>
             </button>
         </div>
     </header>
     <main class="main">
         <section class="hero">
             <div class="hero__container">
+
                 <p class="hero__text">
                     Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident, aliquam placeat odit, modi
                     animi, accusantium esse quasi ad neque obcaecati nam laudantium? Eveniet voluptate porro ex magnam
